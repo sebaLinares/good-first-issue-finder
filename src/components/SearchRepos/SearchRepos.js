@@ -23,18 +23,44 @@ const SearchRepos = props => {
     },
     monthCreatedFrom: {
       label: 'From what month',
-      elementType: 'date',
+      elementType: 'select',
       value: '',
       elementConfig: {
-        options: [],
+        options: [
+          { value: '01', displayValue: 'January' },
+          { value: '02', displayValue: 'February' },
+          { value: '03', displayValue: 'March' },
+          { value: '04', displayValue: 'April' },
+          { value: '05', displayValue: 'May' },
+          { value: '06', displayValue: 'June' },
+          { value: '07', displayValue: 'July' },
+          { value: '08', displayValue: 'August' },
+          { value: '09', displayValue: 'September' },
+          { value: '10', displayValue: 'October' },
+          { value: '11', displayValue: 'November' },
+          { value: '12', displayValue: 'December' },
+        ],
       },
     },
     monthCreatedTo: {
       label: 'To what month',
-      elementType: 'date',
+      elementType: 'select',
       value: '',
       elementConfig: {
-        options: [],
+        options: [
+          { value: '01', displayValue: 'January' },
+          { value: '02', displayValue: 'February' },
+          { value: '03', displayValue: 'March' },
+          { value: '04', displayValue: 'April' },
+          { value: '05', displayValue: 'May' },
+          { value: '06', displayValue: 'June' },
+          { value: '07', displayValue: 'July' },
+          { value: '08', displayValue: 'August' },
+          { value: '09', displayValue: 'September' },
+          { value: '10', displayValue: 'October' },
+          { value: '11', displayValue: 'November' },
+          { value: '12', displayValue: 'December' },
+        ],
       },
     },
     yearCreatedFrom: {
@@ -74,6 +100,23 @@ const SearchRepos = props => {
   const formHandler = event => {
     event.preventDefault()
     console.log(formElementsArr)
+
+    // Start building the query string for api search
+    // base url
+    const baseUrl =
+      'https://api.github.com/search/repositories?q=good-first-issues:>0'
+    const language = `topic:${formElementsArr[0].config.value}`
+    const stars = `stars:${formElementsArr[5].config.value}..${
+      formElementsArr[6].config.value
+    }`
+    const created = `created:${formElementsArr[3].config.value}-${
+      formElementsArr[1].config.value
+    }-01..${formElementsArr[4].config.value}-${
+      formElementsArr[2].config.value
+    }-01`
+
+    const URL = `${baseUrl}+${language}+${stars}+${created}`
+    console.log(URL)
   }
 
   const onChangeHandler = (event, id) => {
