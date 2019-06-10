@@ -12,7 +12,7 @@ const input = props => {
           value={props.value}
           onChange={props.changed}
         >
-          <option disabled selected value="">
+          <option disabled defaultValue value="">
             {' '}
             -- select an option --{' '}
           </option>
@@ -24,12 +24,27 @@ const input = props => {
         </select>
       )
       break
-    // case 'input':
-    //   switch(props.elementTypeDetail){
-    //     case('date'):
-    //       inputElement = <input
-    //         type="date"
-    //   }
+    case 'date':
+    case 'number':
+      inputElement = (
+        <input
+          type="number"
+          className={styles.InputElement}
+          value={props.value}
+          onChange={props.changed}
+        />
+      )
+      break
+    // case 'number':
+    //   inputElement = (
+    //     <input
+    //       type="number"
+    //       className={styles.InputElement}
+    //       value={props.value}
+    //       onChange={props.changed}
+    //     />
+    //   )
+    //   break
     default:
       inputElement = <input type="input" />
   }

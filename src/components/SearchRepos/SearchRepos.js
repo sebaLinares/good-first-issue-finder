@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 
 import styles from './SearchRepos.module.scss'
 import Input from './../../UI/Input/Input'
+import Button from './../../UI/Button/Button'
 
 const SearchRepos = props => {
   // Topics to search
@@ -9,6 +10,7 @@ const SearchRepos = props => {
 
   const [inputs, setInputs] = useState({
     language: {
+      label: 'Programming language',
       elementType: 'select',
       value: '',
       elementConfig: {
@@ -19,21 +21,60 @@ const SearchRepos = props => {
         ],
       },
     },
-    whenCreated: {
-      elementType: 'select',
+    monthCreatedFrom: {
+      label: 'From what month',
+      elementType: 'date',
       value: '',
       elementConfig: {
         options: [],
       },
     },
-    stargazers: {
-      elementType: 'select',
+    monthCreatedTo: {
+      label: 'To what month',
+      elementType: 'date',
+      value: '',
+      elementConfig: {
+        options: [],
+      },
+    },
+    yearCreatedFrom: {
+      label: 'From what year',
+      elementType: 'date',
+      value: '',
+      elementConfig: {
+        options: [],
+      },
+    },
+    yearCreatedTo: {
+      label: 'To what year',
+      elementType: 'date',
+      value: '',
+      elementConfig: {
+        options: [],
+      },
+    },
+    starsFrom: {
+      label: 'Min # of stars',
+      elementType: 'number',
+      value: '',
+      elementConfig: {
+        options: [],
+      },
+    },
+    startsTo: {
+      label: 'Max # of stars',
+      elementType: 'number',
       value: '',
       elementConfig: {
         options: [],
       },
     },
   })
+
+  const formHandler = event => {
+    event.preventDefault()
+    console.log(formElementsArr)
+  }
 
   const onChangeHandler = (event, id) => {
     // Copy 1st level
@@ -61,8 +102,8 @@ const SearchRepos = props => {
     })
   }
 
-  return (
-    <div className={styles.SearchRepos}>
+  let form = (
+    <form onSubmit={formHandler}>
       {formElementsArr.map(el => (
         <Input
           key={el.id}
@@ -70,10 +111,14 @@ const SearchRepos = props => {
           value={el.config.value}
           changed={event => onChangeHandler(event, el.id)}
           elementConfig={el.config.elementConfig}
+          label={el.config.label}
         />
       ))}
-    </div>
+      <Button disabled={false} label={'Get repos'} clicked={formHandler} />
+    </form>
   )
+
+  return <div className={styles.SearchRepos}>{form}</div>
 }
 
 export default SearchRepos
