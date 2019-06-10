@@ -1,4 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+
+import axios from 'axios'
 
 import styles from './SearchRepos.module.scss'
 import Input from './../../UI/Input/Input'
@@ -7,10 +9,20 @@ import Button from './../../UI/Button/Button'
 const SearchRepos = props => {
   // Topics to search
   // const [languages, setLanguages] = ['javascript', 'java', 'python']
+  const [url, setUrl] = useState('')
+  const [formValid, setFormValid] = useState(false)
+  useEffect(() => {
+    axios
+      .get(url)
+      .then(res => {
+        console.log(res)
+      })
+      .catch(err => console.log(err))
+  }, [url])
 
   const [inputs, setInputs] = useState({
     language: {
-      label: 'Programming language',
+      label: 'What programming language you want to get issues of ',
       elementType: 'select',
       value: '',
       elementConfig: {
@@ -42,6 +54,28 @@ const SearchRepos = props => {
         ],
       },
     },
+    yearCreatedFrom: {
+      label: 'Of which year',
+      elementType: 'select',
+      value: '',
+      elementConfig: {
+        options: [
+          { value: '2007', displayValue: '2007' },
+          { value: '2008', displayValue: '2008' },
+          { value: '2009', displayValue: '2009' },
+          { value: '2010', displayValue: '2010' },
+          { value: '2011', displayValue: '2011' },
+          { value: '2012', displayValue: '2012' },
+          { value: '2013', displayValue: '2013' },
+          { value: '2014', displayValue: '2014' },
+          { value: '2015', displayValue: '2015' },
+          { value: '2016', displayValue: '2016' },
+          { value: '2017', displayValue: '2017' },
+          { value: '2018', displayValue: '2018' },
+          { value: '2019', displayValue: '2019' },
+        ],
+      },
+    },
     monthCreatedTo: {
       label: 'To what month',
       elementType: 'select',
@@ -63,20 +97,26 @@ const SearchRepos = props => {
         ],
       },
     },
-    yearCreatedFrom: {
-      label: 'From what year',
-      elementType: 'date',
-      value: '',
-      elementConfig: {
-        options: [],
-      },
-    },
     yearCreatedTo: {
-      label: 'To what year',
-      elementType: 'date',
+      label: 'Of which year',
+      elementType: 'select',
       value: '',
       elementConfig: {
-        options: [],
+        options: [
+          { value: '2007', displayValue: '2007' },
+          { value: '2008', displayValue: '2008' },
+          { value: '2009', displayValue: '2009' },
+          { value: '2010', displayValue: '2010' },
+          { value: '2011', displayValue: '2011' },
+          { value: '2012', displayValue: '2012' },
+          { value: '2013', displayValue: '2013' },
+          { value: '2014', displayValue: '2014' },
+          { value: '2015', displayValue: '2015' },
+          { value: '2016', displayValue: '2016' },
+          { value: '2017', displayValue: '2017' },
+          { value: '2018', displayValue: '2018' },
+          { value: '2019', displayValue: '2019' },
+        ],
       },
     },
     starsFrom: {
@@ -109,13 +149,14 @@ const SearchRepos = props => {
     const stars = `stars:${formElementsArr[5].config.value}..${
       formElementsArr[6].config.value
     }`
-    const created = `created:${formElementsArr[3].config.value}-${
+    const created = `created:${formElementsArr[2].config.value}-${
       formElementsArr[1].config.value
     }-01..${formElementsArr[4].config.value}-${
-      formElementsArr[2].config.value
+      formElementsArr[3].config.value
     }-01`
 
     const URL = `${baseUrl}+${language}+${stars}+${created}`
+    setUrl(URL)
     console.log(URL)
   }
 
