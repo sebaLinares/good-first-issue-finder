@@ -1,68 +1,38 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# GFIF - Good First Issue Finder
 
-## Available Scripts
+GFIF is aimed to be an easy way for newcomers in the open software world, that for no particular reason want to start contributing to open source (like me). It has come to my attention the difficulty of finding `good first issue` issues in a variety of github repositories - not the same libraries that are always being featured.
 
-In the project directory, you can run:
+This will be my first OSS and part of my #100DaysOfCode Challenge, so it'll be used primarily for learning purposes. Any contribution is much appreciate and if you haven't done any open source contribution and wish to learn how to contribute, it's a wonderful oportunity for us both.
 
-### `npm start`
+## :dart: App purpose
+To be an easy way to find repos, with opened issues, that have the `good first issue` label :label:. The user will be able find repos, with this kind of issues, by the year created, the programming language written in or the stars they have. This will give the user the possibility to find a wide range of repositories that have good issues for **his first open source contributions**.
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## :wrench: Installing / Getting started
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+With npm:
+```bash
+git clone https://github.com/sebaLinares/first-time-only-finder.git
+npm install
+npm start
+```
 
-### `npm test`
+With yarn:
+```bash
+git clone https://github.com/sebaLinares/first-time-only-finder.git
+yarn install
+yarn start
+```
+## :construction_worker: Built with
+- Create react app
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## :open_hands: Contributing
+If you would like to contribute please fork this repository.
+Be my guest to contribute with pull requests or participating on any issue. This is a learning project so issues will be easy picks for a good first issue.
 
-### `npm run build`
+If you don't know how to contribute to open source I leave you [this link](https://codeburst.io/a-step-by-step-guide-to-making-your-first-github-contribution-5302260a2940) with a medium post written by someone else that walks you through open source github contributions.
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## :eyes: Author
+- Sebastián Linares. You can find me on [Twitter @slinaresl](https://twitter.com/SLinaresL)
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+## License
+[MIT](https://choosealicense.com/licenses/mit/)
