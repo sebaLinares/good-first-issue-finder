@@ -2,12 +2,12 @@ import React from 'react'
 
 import styles from './Hero.module.scss'
 
-const hero = props => {
+const Hero = props => {
   return (
-    <div className={styles.RepoFinder}>
-      <p>Hello from hero</p>
+    <div className={styles.Hero}>
+      <h1>Good First Issue Finder</h1>
     </div>
   )
 }
 
-export default hero
+export default Hero
