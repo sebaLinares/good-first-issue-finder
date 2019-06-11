@@ -35,16 +35,6 @@ const input = props => {
         />
       )
       break
-    // case 'number':
-    //   inputElement = (
-    //     <input
-    //       type="number"
-    //       className={styles.InputElement}
-    //       value={props.value}
-    //       onChange={props.changed}
-    //     />
-    //   )
-    //   break
     default:
       inputElement = <input type="input" />
   }

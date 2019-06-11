@@ -1,0 +1,1047 @@
+FUNCTION  AutoPairsSpace()
+    Defined: ~/.vim_runtime/sources_non_forked/auto-pairs/plugin/auto-pairs.vim line 423
+Called 7 times
+Total time:   0.001917
+ Self time:   0.001337
+
+count  total (s)   self (s)
+    7              0.000039   if !b:autopairs_enabled
+                                return "\<SPACE>"
+    7              0.000008   end
+                            
+    7   0.000774   0.000194   let [before, after, ig] = s:getline()
+                            
+   70              0.000128   for [open, close, opt] in b:AutoPairsList
+   63              0.000081     if close == ''
+                                  continue
+   63              0.000035     end
+   63              0.000348     if before =~ '\V'.open.'\v$' && after =~ '^\V'.close
+                                  if close =~ '\v^[''"`]$'
+                                    return "\<SPACE>"
+                                  else
+                                    return "\<SPACE>\<SPACE>".s:Left
+                                  end
+   63              0.000027     end
+   70              0.000061   endfor
+    7              0.000016   return "\<SPACE>"
+
+FUNCTION  GetJsxIndent()
+    Defined: ~/.vim/bundle/vim-jsx/after/indent/jsx.vim line 82
+Called 13 times
+Total time:   0.157597
+ Self time:   0.001882
+
+count  total (s)   self (s)
+   13   0.000995   0.000215   let cursyn  = SynSOL(v:lnum)
+   13   0.006124   0.000234   let prevsyn = SynEOL(v:lnum - 1)
+                            
+                              " Use XML indenting iff:
+                              "   - the syntax at the end of the previous line was either JSX or was the
+                              "     closing brace of a jsBlock whose parent syntax was JSX; and
+                              "   - the current line continues the same jsxRegion as the previous line.
+   13   0.001484   0.000701   if (SynXMLish(prevsyn) || SynJSXBlockEnd(prevsyn)) && SynJSXContinues(cursyn, prevsyn)
+                                let ind = XmlIndentGet(v:lnum, 0)
+                            
+                                " Align '/>' and '>' with '<' for multiline tags.
+                                if getline(v:lnum) =~? s:endtag
+                                  let ind = ind - &sw
+                                endif
+                            
+                                " Then correct the indentation of any JSX following '/>' or '>'.
+                                if getline(v:lnum - 1) =~? s:endtag
+                                  let ind = ind + &sw
+                                endif
+   13              0.000009   else
+   13              0.000049     if len(b:jsx_js_indentexpr)
+                                  " Invoke the base JS package's custom indenter.  (For vim-javascript,
+                                  " e.g., this will be GetJavascriptIndent().)
+   13   0.148574   0.000312       let ind = eval(b:jsx_js_indentexpr)
+                                else
+                                  let ind = cindent(v:lnum)
+   13              0.000007     endif
+   13              0.000009   endif
+                            
+   13              0.000011   return ind
+
+FUNCTION  lightline#tab#filename()
+    Defined: ~/.vim_runtime/sources_non_forked/lightline.vim/autoload/lightline/tab.vim line 11
+Called 9 times
+Total time:   0.000170
+ Self time:   0.000170
+
+count  total (s)   self (s)
+    9              0.000036   let buflist = tabpagebuflist(a:n)
+    9              0.000026   let winnr = tabpagewinnr(a:n)
+    9              0.000078   let _ = expand('#'.buflist[winnr - 1].':t')
+    9              0.000020   return _ !=# '' ? _ : '[No Name]'
+
+FUNCTION  <SNR>51_getline()
+    Defined: ~/.vim_runtime/sources_non_forked/auto-pairs/plugin/auto-pairs.vim line 139
+Called 8 times
+Total time:   0.000635
+ Self time:   0.000635
+
+count  total (s)   self (s)
+    8              0.000066   let line = getline('.')
+    8              0.000064   let pos = col('.') - 1
+    8              0.000060   let before = strpart(line, 0, pos)
+    8              0.000029   let after = strpart(line, pos)
+    8              0.000016   let afterline = after
+    8              0.000015   if g:AutoPairsMultilineClose
+    8              0.000028     let n = line('$')
+    8              0.000029     let i = line('.')+1
+    8              0.000021     while i <= n
+    8              0.000028       let line = getline(i)
+    8              0.000027       let after = after.' '.line
+    8              0.000122       if !(line =~ '\v^\s*$')
+    8              0.000013         break
+                                  end
+                                  let i = i+1
+    8              0.000016     endwhile
+    8              0.000009   end
+    8              0.000028   return [before, after, afterline]
+
+FUNCTION  <SNR>102_before_yank()
+    Defined: ~/.vim_runtime/sources_non_forked/vim-yankstack/autoload/yankstack.vim line 65
+Called 1 time
+Total time:   0.000166
+ Self time:   0.000072
+
+count  total (s)   self (s)
+    1   0.000132   0.000038   let head = s:get_yankstack_head()
+    1              0.000012   if !empty(head.text) && (empty(s:yankstack_tail) || (head != s:yankstack_tail[0]))
+    1              0.000006     call insert(s:yankstack_tail, head)
+    1              0.000012     let s:yankstack_tail = s:yankstack_tail[: g:yankstack_size-1]
+    1              0.000002   endif
+
+FUNCTION  <SNR>123_Balanced()
+    Defined: ~/.vim/bundle/vim-javascript/indent/javascript.vim line 243
+Called 2 times
+Total time:   0.000241
+ Self time:   0.000104
+
+count  total (s)   self (s)
+    2              0.000004   let l:open = 0
+    2              0.000023   let pos = match(a:line, '[][(){}]')
+    2              0.000003   while pos != -1
+    1   0.000176   0.000039     if s:SynAt(a:lnum,pos + 1) !~? b:syng_strcom
+    1              0.000013       let l:open += matchend(a:line[pos],'[[({]')
+    1              0.000002       if l:open < 0
+    1              0.000001         return
+                                  endif
+                                endif
+                                let pos = match(a:line, !l:open ? '[][(){}]' : '()' =~ a:line[pos] ? '[()]' : '{}' =~ a:line[pos] ? '[{}]' : '[][]', pos + 1)
+    1              0.000002   endwhile
+    1              0.000001   return !l:open
+
+FUNCTION  <SNR>123_sw()
+    Defined: ~/.vim/bundle/vim-javascript/indent/javascript.vim line 51
+Called 12 times
+Total time:   0.000059
+ Self time:   0.000059
+
+count  total (s)   self (s)
+   12              0.000043     return shiftwidth()
+
+FUNCTION  <SNR>123_IsBlock()
+    Defined: ~/.vim/bundle/vim-javascript/indent/javascript.vim line 319
+Called 14 times
+Total time:   0.020380
+ Self time:   0.001656
+
+count  total (s)   self (s)
+   14   0.001918   0.000256   let tok = s:PreviousToken()
+   14              0.000578   if join(s:stack) =~? 'xml\|jsx' && s:SynAt(line('.'),col('.')-1) =~? 'xml\|jsx'
+                                let s:in_jsx = 1
+                                return tok != '{'
+   14              0.000062   elseif tok =~ '\k'
+                                if tok ==# 'type'
+                                  return s:Pure('eval',"s:PreviousToken() !~# '^\\%(im\\|ex\\)port$' || s:PreviousToken() == '.'")
+                                elseif tok ==# 'of'
+                                  return s:Pure('eval',"!s:GetPair('[[({]','[])}]','bW',s:skip_expr) || s:LookingAt() != '(' ||" ."s:{s:PreviousToken() ==# 'await' ? 'Previous' : ''}Token() !=# 'for' || s:PreviousToken() == '.'")
+                                endif
+                                return index(split('return const let import export extends yield default delete var await void typeof throw case new in instanceof') ,tok) < (line('.') != a:firstline) || s:Pure('s:PreviousToken') == '.'
+   14              0.000022   elseif tok == '>'
+                                return getline('.')[col('.')-2] == '=' || s:SynAt(line('.'),col('.')) =~? 'jsflow\|^html'
+   14              0.000022   elseif tok == '*'
+                                return s:Pure('s:PreviousToken') == ':'
+   14              0.000022   elseif tok == ':'
+    1              0.016858     return s:Pure('eval',"s:PreviousToken() =~ '^\\K\\k*$' && !s:ExprCol()")
+   13              0.000014   elseif tok == '/'
+                                return s:SynAt(line('.'),col('.')) =~? 'regex'
+   13              0.000105   elseif tok !~ '[=~!<,.?^%|&([]'
+                                return tok !~ '[-+]' || line('.') != a:firstline && getline('.')[col('.')-2] == tok
+   13              0.000011   endif
+
+FUNCTION  <SNR>123_ExprCol()
+    Defined: ~/.vim/bundle/vim-javascript/indent/javascript.vim line 202
+Called 1 time
+Total time:   0.016913
+ Self time:   0.000446
+
+count  total (s)   self (s)
+    1              0.000005   if getline('.')[col('.')-2] == ':'
+                                return 1
+    1              0.000000   endif
+    1              0.000002   let bal = 0
+    5   0.001288   0.000089   while s:SearchLoop('[{}?:]','bW',s:skip_expr)
+    5   0.000110   0.000082     if s:LookingAt() == ':'
+    2              0.000048       let bal -= !search('\m:\%#','bW')
+    3   0.000054   0.000039     elseif s:LookingAt() == '?'
+                                  if getline('.')[col('.'):col('.')+1] =~ '^\.\d\@!'
+                                    " ?. conditional chain, not ternary start
+                                  elseif !bal
+                                    return 1
+                                  else
+                                    let bal += 1
+                                  endif
+    3   0.000057   0.000043     elseif s:LookingAt() == '{'
+    1   0.000212   0.000005       return !s:IsBlock()
+    2   0.015034   0.000030     elseif !s:GetPair('{','}','bW',s:skip_expr)
+                                  break
+    4              0.000000     endif
+    4              0.000002   endwhile
+
+FUNCTION  lightline#link()
+    Defined: ~/.vim_runtime/sources_non_forked/lightline.vim/autoload/lightline.vim line 221
+Called 367 times
+Total time:   0.019442
+ Self time:   0.015974
+
+count  total (s)   self (s)
+  367              0.006079   let mode = get(s:lightline._mode_, a:0 ? a:1 : mode(), 'normal')
+  367              0.001454   if s:mode == mode
+  357              0.000781     return ''
+   10              0.000012   endif
+   10              0.000026   let s:mode = mode
+   10              0.000044   if !has_key(s:highlight, mode)
+    2   0.003575   0.000107     call lightline#highlight(mode)
+   10              0.000009   endif
+   10              0.000168   let types = map(s:uniq(sort(filter(values(s:lightline.component_type), 'v:val !=# "raw"'))), '[v:val, 1]')
+   30              0.000113   for [p, l] in [['Left', len(s:lightline.active.left)], ['Right', len(s:lightline.active.right)]]
+  100              0.000280     for [i, t] in map(range(0, l), '[v:val, 0]') + types
+   80              0.000088       if i != l
+   60              0.000566         exec printf('hi link Lightline%s_active_%s Lightline%s_%s_%s', p, i, p, mode, i)
+   80              0.000054       endif
+  400              0.001014       for [j, s] in map(range(0, l), '[v:val, 0]') + types
+  320              0.000597         if i + 1 == j || t || s && i != l
+  160              0.001493           exec printf('hi link Lightline%s_active_%s_%s Lightline%s_%s_%s_%s', p, i, j, p, mode, i, j)
+  320              0.000204         endif
+  400              0.000298       endfor
+  100              0.000073     endfor
+   30              0.000038   endfor
+   10              0.000064   exec printf('hi link LightlineMiddle_active LightlineMiddle_%s', mode)
+   10              0.000010   return ''
+
+FUNCTION  <SNR>123_GetPair()
+    Defined: ~/.vim/bundle/vim-javascript/indent/javascript.vim line 71
+Called 18 times
+Total time:   0.133307
+ Self time:   0.021156
+
+count  total (s)   self (s)
+   18   0.133297   0.021146     return searchpair('\m'.a:start,'','\m'.a:end,a:flags,a:skip,s:l1,a:skip ==# 's:SkipFunc()' ? 2000 : 200)
+
+FUNCTION  SynJSXBlockEnd()
+    Defined: ~/.vim/bundle/vim-jsx/after/indent/jsx.vim line 55
+Called 13 times
+Total time:   0.000196
+ Self time:   0.000196
+
+count  total (s)   self (s)
+   13              0.000186   return get(a:syns, -1) =~ '\%(js\|javascript\)Braces' && SynAttrXMLish(get(a:syns, -2))
+
+FUNCTION  FugitiveGitDir()
+    Defined: ~/.vim_runtime/sources_non_forked/vim-fugitive/plugin/fugitive.vim line 11
+Called 1468 times
+Total time:   0.010926
+ Self time:   0.010926
+
+count  total (s)   self (s)
+ 1468              0.003369   if !a:0 || a:1 ==# -1
+ 1468              0.006134     return get(b:, 'git_dir', '')
+                              elseif type(a:1) == type(0)
+                                return getbufvar(a:1, 'git_dir')
+                              elseif type(a:1) == type('')
+                                return substitute(s:Slash(a:1), '/$', '', '')
+                              else
+                                return ''
+                              endif
+
+FUNCTION  FoldText()
+    Defined: ~/.vim_runtime/vimrcs/filetypes.vim line 43
+Called 8 times
+Total time:   0.000111
+ Self time:   0.000111
+
+count  total (s)   self (s)
+    8              0.000104         return substitute(getline(v:foldstart), '{.*', '{...}', '')
+
+FUNCTION  <SNR>123_PreviousToken()
+    Defined: ~/.vim/bundle/vim-javascript/indent/javascript.vim line 169
+Called 28 times
+Total time:   0.003906
+ Self time:   0.002411
+
+count  total (s)   self (s)
+   28              0.000174   let [l:pos, tok] = [getpos('.'), '']
+   28              0.000474   if search('\m\k\{1,}\|\S','ebW')
+   28              0.000218     if getline('.')[col('.')-2:col('.')-1] == '*/'
+                                  if eval(s:in_comm) && !s:SearchLoop('\S\ze\_s*\/[/*]','bW',s:in_comm)
+                                    call setpos('.',l:pos)
+                                  else
+                                    let tok = s:Token()
+                                  endif
+   28              0.000014     else
+   28              0.000235       let two = a:0 || line('.') != l:pos[1] ? strridx(getline('.')[:col('.')],'//') + 1 : 0
+   28              0.000049       if two && eval(s:in_comm)
+                                    call cursor(0,two)
+                                    let tok = s:PreviousToken(1)
+                                    if tok is ''
+                                      call setpos('.',l:pos)
+                                    endif
+   28              0.000017       else
+   28   0.002008   0.000513         let tok = s:Token()
+   28              0.000029       endif
+   28              0.000015     endif
+   28              0.000016   endif
+   28              0.000039   return tok
+
+FUNCTION  AutoPairsReturn()
+    Defined: ~/.vim_runtime/sources_non_forked/auto-pairs/plugin/auto-pairs.vim line 384
+Called 1 time
+Total time:   0.000351
+ Self time:   0.000296
+
+count  total (s)   self (s)
+    1              0.000003   if b:autopairs_enabled == 0
+                                return ''
+    1              0.000001   end
+    1              0.000003   let b:autopairs_return_pos = 0
+    1              0.000008   let before = getline(line('.')-1)
+    1   0.000079   0.000024   let [ig, ig, afterline] = s:getline()
+    1              0.000001   let cmd = ''
+   10              0.000015   for [open, close, opt] in b:AutoPairsList
+    9              0.000013     if close == ''
+                                  continue
+    9              0.000005     end
+                            
+    9              0.000056     if before =~ '\V'.open.'\v\s*$' && afterline =~ '^\s*\V'.close
+                                  let b:autopairs_return_pos = line('.')
+                                  if g:AutoPairsCenterLine && winline() * 3 >= winheight(0) * 2
+                                    " Recenter before adding new line to avoid replacing line content
+                                    let cmd = "zz"
+                                  end
+                            
+                                  " If equalprg has been set, then avoid call =
+                                  " https://github.com/jiangmiao/auto-pairs/issues/24
+                                  if &equalprg != ''
+                                    return "\<ESC>".cmd."O"
+                                  endif
+                            
+                                  " conflict with javascript and coffee
+                                  " javascript   need   indent new line
+                                  " coffeescript forbid indent new line
+                                  if &filetype == 'coffeescript' || &filetype == 'coffee'
+                                    return "\<ESC>".cmd."k==o"
+                                  else
+                                    return "\<ESC>".cmd."=ko"
+                                  endif
+    9              0.000006     end
+   10              0.000013   endfor
+    1              0.000001   return ''
+
+FUNCTION  <SNR>109_Highlight_Matching_Pair()
+    Defined: /usr/local/Cellar/vim/8.1.1200/share/vim/vim81/plugin/matchparen.vim line 39
+Called 410 times
+Total time:   0.232008
+ Self time:   0.232008
+
+count  total (s)   self (s)
+                              " Remove any previous match.
+  410              0.002498   if exists('w:paren_hl_on') && w:paren_hl_on
+   81              0.000404     silent! call matchdelete(3)
+   81              0.000221     let w:paren_hl_on = 0
+  410              0.000413   endif
+                            
+                              " Avoid that we remove the popup menu.
+                              " Return when there are no colors (looks like the cursor jumps).
+  410              0.002688   if pumvisible() || (&t_Co < 8 && !has("gui_running"))
+                                return
+  410              0.000304   endif
+                            
+                              " Get the character under the cursor and check if it's in 'matchpairs'.
+  410              0.001667   let c_lnum = line('.')
+  410              0.001234   let c_col = col('.')
+  410              0.000558   let before = 0
+                            
+  410              0.001436   let text = getline(c_lnum)
+  410              0.012191   let matches = matchlist(text, '\(.\)\=\%'.c_col.'c\(.\=\)')
+  410              0.001365   if empty(matches)
+                                let [c_before, c] = ['', '']
+  410              0.000403   else
+  410              0.002503     let [c_before, c] = matches[1:2]
+  410              0.000359   endif
+  410              0.010002   let plist = split(&matchpairs, '.\zs[:,]')
+  410              0.001865   let i = index(plist, c)
+  410              0.000622   if i < 0
+                                " not found, in Insert mode try character before the cursor
+  327              0.001684     if c_col > 1 && (mode() == 'i' || mode() == 'R')
+   62              0.000171       let before = strlen(c_before)
+   62              0.000080       let c = c_before
+   62              0.000144       let i = index(plist, c)
+  327              0.000282     endif
+  327              0.000380     if i < 0
+                                  " not found, nothing to do
+  327              0.000502       return
+                                endif
+   83              0.000042   endif
+                            
+                              " Figure out the arguments for searchpairpos().
+   83              0.000118   if i % 2 == 0
+   76              0.000139     let s_flags = 'nW'
+   76              0.000261     let c2 = plist[i + 1]
+    7              0.000004   else
+    7              0.000014     let s_flags = 'nbW'
+    7              0.000013     let c2 = c
+    7              0.000027     let c = plist[i - 1]
+   83              0.000058   endif
+   83              0.000219   if c == '['
+                                let c = '\['
+                                let c2 = '\]'
+   83              0.000049   endif
+                            
+                              " Find the match.  When it was just before the cursor move it there for a
+                              " moment.
+   83              0.000146   if before > 0
+                                let has_getcurpos = exists("*getcurpos")
+                                if has_getcurpos
+                                  " getcurpos() is more efficient but doesn't exist before 7.4.313.
+                                  let save_cursor = getcurpos()
+                                else
+                                  let save_cursor = winsaveview()
+                                endif
+                                call cursor(c_lnum, c_col - before)
+   83              0.000056   endif
+                            
+   83              0.000591   if !has("syntax") || !exists("g:syntax_on")
+                                let s_skip = "0"
+   83              0.000056   else
+                                " Build an expression that detects whether the current cursor position is
+                                " in certain syntax types (string, comment, etc.), for use as
+                                " searchpairpos()'s skip argument.
+                                " We match "escape" for special items, such as lispEscapeSpecial.
+   83              0.000417     let s_skip = '!empty(filter(map(synstack(line("."), col(".")), ''synIDattr(v:val, "name")''), ' . '''v:val =~? "string\\|character\\|singlequote\\|escape\\|comment"''))'
+                                " If executing the expression determines that the cursor is currently in
+                                " one of the syntax types, then we want searchpairpos() to find the pair
+                                " within those syntax types (i.e., not skip).  Otherwise, the cursor is
+                                " outside of the syntax types and s_skip should keep its value so we skip
+                                " any matching pair inside the syntax types.
+                                " Catch if this throws E363: pattern uses more memory than 'maxmempattern'.
+   83              0.000099     try
+   83              0.047096       execute 'if ' . s_skip . ' | let s_skip = "0" | endif'
+                                catch /^Vim\%((\a\+)\)\=:E363/
+                                  " We won't find anything, so skip searching, should keep Vim responsive.
+                                  return
+   83              0.000123     endtry
+   83              0.000069   endif
+                            
+                              " Limit the search to lines visible in the window.
+   83              0.001983   let stoplinebottom = line('w$')
+   83              0.000463   let stoplinetop = line('w0')
+   83              0.000172   if i % 2 == 0
+   76              0.000235     let stopline = stoplinebottom
+    7              0.000008   else
+    7              0.000020     let stopline = stoplinetop
+   83              0.000055   endif
+                            
+                              " Limit the search time to 300 msec to avoid a hang on very long lines.
+                              " This fails when a timeout is not supported.
+   83              0.000512   if mode() == 'i' || mode() == 'R'
+                                let timeout = exists("b:matchparen_insert_timeout") ? b:matchparen_insert_timeout : g:matchparen_insert_timeout
+   83              0.000064   else
+   83              0.000490     let timeout = exists("b:matchparen_timeout") ? b:matchparen_timeout : g:matchparen_timeout
+   83              0.000062   endif
+   83              0.000089   try
+   83              0.110541     let [m_lnum, m_col] = searchpairpos(c, '', c2, s_flags, s_skip, stopline, timeout)
+                              catch /E118/
+                                " Can't use the timeout, restrict the stopline a bit more to avoid taking
+                                " a long time on closed folds and long lines.
+                                " The "viewable" variables give a range in which we can scroll while
+                                " keeping the cursor at the same position.
+                                " adjustedScrolloff accounts for very large numbers of scrolloff.
+                                let adjustedScrolloff = min([&scrolloff, (line('w$') - line('w0')) / 2])
+                                let bottom_viewable = min([line('$'), c_lnum + &lines - adjustedScrolloff - 2])
+                                let top_viewable = max([1, c_lnum-&lines+adjustedScrolloff + 2])
+                                " one of these stoplines will be adjusted below, but the current values are
+                                " minimal boundaries within the current window
+                                if i % 2 == 0
+                                  if has("byte_offset") && has("syntax_items") && &smc > 0
+                            	let stopbyte = min([line2byte("$"), line2byte(".") + col(".") + &smc * 2])
+                            	let stopline = min([bottom_viewable, byte2line(stopbyte)])
+                                  else
+                            	let stopline = min([bottom_viewable, c_lnum + 100])
+                                  endif
+                                  let stoplinebottom = stopline
+                                else
+                                  if has("byte_offset") && has("syntax_items") && &smc > 0
+                            	let stopbyte = max([1, line2byte(".") + col(".") - &smc * 2])
+                            	let stopline = max([top_viewable, byte2line(stopbyte)])
+                                  else
+                            	let stopline = max([top_viewable, c_lnum - 100])
+                                  endif
+                                  let stoplinetop = stopline
+                                endif
+                                let [m_lnum, m_col] = searchpairpos(c, '', c2, s_flags, s_skip, stopline)
+   83              0.000131   endtry
+                            
+   83              0.000124   if before > 0
+                                if has_getcurpos
+                                  call setpos('.', save_cursor)
+                                else
+                                  call winrestview(save_cursor)
+                                endif
+   83              0.000057   endif
+                            
+                              " If a match is found setup match highlighting.
+   83              0.000231   if m_lnum > 0 && m_lnum >= stoplinetop && m_lnum <= stoplinebottom 
+   81              0.000356     if exists('*matchaddpos')
+   81              0.002509       call matchaddpos('MatchParen', [[c_lnum, c_col - before], [m_lnum, m_col]], 10, 3)
+                                else
+                                  exe '3match MatchParen /\(\%' . c_lnum . 'l\%' . (c_col - before) . 'c\)\|\(\%' . m_lnum . 'l\%' . m_col . 'c\)/'
+   81              0.000056     endif
+   81              0.000202     let w:paren_hl_on = 1
+   83              0.000065   endif
+
+FUNCTION  <SNR>123_LookingAt()
+    Defined: ~/.vim/bundle/vim-javascript/indent/javascript.vim line 161
+Called 98 times
+Total time:   0.000662
+ Self time:   0.000662
+
+count  total (s)   self (s)
+   98              0.000606   return getline('.')[col('.')-1]
+
+FUNCTION  SynAttrXMLish()
+    Defined: ~/.vim/bundle/vim-jsx/after/indent/jsx.vim line 45
+Called 13 times
+Total time:   0.000310
+ Self time:   0.000310
+
+count  total (s)   self (s)
+   13              0.000303   return a:synattr =~ "^xml" || a:synattr =~ "^jsx"
+
+FUNCTION  lightline#mode()
+    Defined: ~/.vim_runtime/sources_non_forked/lightline.vim/autoload/lightline.vim line 216
+Called 367 times
+Total time:   0.003188
+ Self time:   0.003188
+
+count  total (s)   self (s)
+  367              0.002796   return get(s:lightline.mode_map, mode(), '')
+
+FUNCTION  lightline#tabline()
+    Defined: ~/.vim_runtime/sources_non_forked/lightline.vim/autoload/lightline.vim line 449
+Called 9 times
+Total time:   0.000215
+ Self time:   0.000215
+
+count  total (s)   self (s)
+    9              0.000044   if !has_key(s:highlight, 'tabline')
+                                call lightline#highlight('tabline')
+    9              0.000007   endif
+    9              0.000050   if s:lightline.tabline_configured || s:tabnr != tabpagenr() || s:tabcnt != tabpagenr('$')
+                                let s:tabnr = tabpagenr()
+                                let s:tabcnt = tabpagenr('$')
+                                let s:tabline = s:line(1, 0)
+    9              0.000004   endif
+    9              0.000017   return s:tabline
+
+FUNCTION  <SNR>137_Dir()
+    Defined: ~/.vim_runtime/sources_non_forked/vim-fugitive/autoload/fugitive.vim line 225
+Called 1468 times
+Total time:   0.034892
+ Self time:   0.023966
+
+count  total (s)   self (s)
+ 1468   0.033894   0.022968   return a:0 ? FugitiveGitDir(a:1) : FugitiveGitDir()
+
+FUNCTION  <SNR>127_term()
+    Defined: ~/.vim_runtime/sources_non_forked/lightline.vim/autoload/lightline.vim line 247
+Called 14 times
+Total time:   0.000077
+ Self time:   0.000077
+
+count  total (s)   self (s)
+   14              0.000066   return get(a:p, 4) !=# '' ? 'term='.a:p[4].' cterm='.a:p[4].' gui='.a:p[4] : ''
+
+FUNCTION  fugitive#Head()
+    Defined: ~/.vim_runtime/sources_non_forked/vim-fugitive/autoload/fugitive.vim line 324
+Called 734 times
+Total time:   0.140131
+ Self time:   0.124075
+
+count  total (s)   self (s)
+  734   0.026498   0.010442   let dir = a:0 > 1 ? a:2 : s:Dir()
+  734              0.046011   if empty(dir) || !filereadable(dir . '/HEAD')
+                                return ''
+  734              0.000674   endif
+  734              0.036106   let head = readfile(dir . '/HEAD')[0]
+  734              0.010047   if head =~# '^ref: '
+  734              0.017104     return substitute(head, '\C^ref: \%(refs/\%(heads/\|remotes/\|tags/\)\=\)\=', '', '')
+                              elseif head =~# '^\x\{40\}$'
+                                let len = a:0 ? a:1 : 0
+                                return len < 0 ? head : len ? head[0:len-1] : ''
+                              else
+                                return ''
+                              endif
+
+FUNCTION  <SNR>123_Pure()
+    Defined: ~/.vim/bundle/vim-javascript/indent/javascript.vim line 194
+Called 1 time
+Total time:   0.017066
+ Self time:   0.000061
+
+count  total (s)   self (s)
+    1   0.017065   0.000060   return eval("[call(a:f,a:000),cursor(a:firstline,".col('.').")][0]")
+
+FUNCTION  <SNR>102_get_yankstack_head()
+    Defined: ~/.vim_runtime/sources_non_forked/vim-yankstack/autoload/yankstack.vim line 91
+Called 1 time
+Total time:   0.000094
+ Self time:   0.000049
+
+count  total (s)   self (s)
+    1   0.000076   0.000031   let reg = s:default_register()
+    1              0.000015   return { 'text': getreg(reg), 'type': getregtype(reg) }
+
+FUNCTION  <SNR>123_AlternatePair()
+    Defined: ~/.vim/bundle/vim-javascript/indent/javascript.vim line 133
+Called 1 time
+Total time:   0.017452
+ Self time:   0.000294
+
+count  total (s)   self (s)
+    1              0.000003   let [pat, l:for] = ['[][(){};]', 2]
+    4   0.000654   0.000063   while s:SearchLoop(pat,'bW','s:SkipFunc()')
+    4   0.000079   0.000058     if s:LookingAt() == ';'
+                                  if !l:for
+                                    if s:GetPair('{','}','bW','s:SkipFunc()')
+                                      return
+                                    endif
+                                    break
+                                  else
+                                    let [pat, l:for] = ['[{}();]', l:for - 1]
+                                  endif
+    4              0.000003     else
+    4   0.000077   0.000058       let idx = stridx('])}',s:LookingAt())
+    4              0.000005       if idx == -1
+    1              0.000001         return
+    3   0.016577   0.000050       elseif !s:GetPair(['\[','(','{'][idx],'])}'[idx],'bW','s:SkipFunc()')
+                                    break
+    3              0.000001       endif
+    3              0.000002     endif
+    3              0.000002   endwhile
+                              throw 'out of bounds'
+
+FUNCTION  lightline#tab#modified()
+    Defined: ~/.vim_runtime/sources_non_forked/lightline.vim/autoload/lightline/tab.vim line 18
+Called 9 times
+Total time:   0.000103
+ Self time:   0.000103
+
+count  total (s)   self (s)
+    9              0.000027   let winnr = tabpagewinnr(a:n)
+    9              0.000064   return gettabwinvar(a:n, winnr, '&modified') ? '+' : gettabwinvar(a:n, winnr, '&modifiable') ? '' : '-'
+
+FUNCTION  <SNR>123_SkipFunc()
+    Defined: ~/.vim/bundle/vim-javascript/indent/javascript.vim line 110
+Called 305 times
+Total time:   0.099414
+ Self time:   0.032796
+
+count  total (s)   self (s)
+  305              0.000595   if s:top_col == 1
+                                throw 'out of bounds'
+  305              0.000306   elseif s:check_in
+                                if eval(s:skip_expr)
+                                  return 1
+                                endif
+                                let s:check_in = 0
+  305              0.010790   elseif getline('.') =~ '\%<'.col('.').'c\/.\{-}\/\|\%>'.col('.').'c[''"]\|\\$'
+  125   0.072197   0.005579     if eval(s:skip_expr)
+                                  return 1
+  125              0.000098     endif
+  180              0.006811   elseif search('\m`\|\${\|\*\/','nW'.s:z,s:looksyn)
+                                if eval(s:skip_expr)
+                                  let s:check_in = 1
+                                  return 1
+                                endif
+  180              0.000102   else
+  180              0.001448     let s:synid_cache[:] += [[line2byte('.') + col('.') - 1], ['']]
+  305              0.000218   endif
+  305              0.001699   let [s:looksyn, s:top_col] = getpos('.')[1:2]
+
+FUNCTION  SynSOL()
+    Defined: ~/.vim/bundle/vim-jsx/after/indent/jsx.vim line 33
+Called 13 times
+Total time:   0.000780
+ Self time:   0.000780
+
+count  total (s)   self (s)
+   13              0.000762   return map(synstack(a:lnum, 1), 'synIDattr(v:val, "name")')
+
+FUNCTION  <SNR>102_yank_with_key()
+    Defined: ~/.vim_runtime/sources_non_forked/vim-yankstack/autoload/yankstack.vim line 16
+Called 1 time
+Total time:   0.000210
+ Self time:   0.000044
+
+count  total (s)   self (s)
+    1   0.000205   0.000039   call s:before_yank()
+    1              0.000002   return a:key
+
+FUNCTION  <SNR>123_Nat()
+    Defined: ~/.vim/bundle/vim-javascript/indent/javascript.vim line 157
+Called 25 times
+Total time:   0.000081
+ Self time:   0.000081
+
+count  total (s)   self (s)
+   25              0.000069   return a:int * (a:int > 0)
+
+FUNCTION  lightline#onetab()
+    Defined: ~/.vim_runtime/sources_non_forked/lightline.vim/autoload/lightline.vim line 483
+Called 9 times
+Total time:   0.001430
+ Self time:   0.001137
+
+count  total (s)   self (s)
+    9              0.000023   let _ = []
+   36              0.000078   for name in a:active ? s:lightline.tab.active : s:lightline.tab.inactive
+   27              0.000084     if has_key(s:lightline.tab_component_function, name)
+   27   0.000827   0.000534       call add(_, call(s:lightline.tab_component_function[name], [a:n]))
+                                else
+                                  call add(_, get(s:lightline.tab_component, name, ''))
+   27              0.000020     endif
+   36              0.000060   endfor
+    9              0.000113   return join(filter(_, 'v:val !=# ""'), ' ')
+
+FUNCTION  GetJavascriptIndent()
+    Defined: ~/.vim/bundle/vim-javascript/indent/javascript.vim line 346
+Called 13 times
+Total time:   0.148262
+ Self time:   0.007582
+
+count  total (s)   self (s)
+   13   0.000581   0.000365   call s:GetVars()
+   13              0.000148   let s:synid_cache = [[],[]]
+   13              0.000053   let l:line = getline(v:lnum)
+                              " use synstack as it validates syn state and works in an empty line
+   13              0.000678   let s:stack = [''] + map(synstack(v:lnum,1),"synIDattr(v:val,'name')")
+                            
+                              " start with strings,comments,etc.
+   13              0.000232   if s:stack[-1] =~? 'comment\|doc'
+                                if l:line !~ '^\s*\/[/*]'
+                                  return l:line =~ '^\s*\*' ? cindent(v:lnum) : -1
+                                endif
+   13              0.000185   elseif s:stack[-1] =~? b:syng_str
+                                if b:js_cache[0] == v:lnum - 1 && s:Balanced(v:lnum-1,getline(v:lnum-1))
+                                  let b:js_cache[0] = v:lnum
+                                endif
+                                return -1
+   13              0.000007   endif
+                            
+   13              0.000076   let nest = get(get(b:,'hi_indent',{}),'blocklnr')
+   13              0.000103   let s:l1 = max([0, prevnonblank(v:lnum) - (s:rel ? 2000 : 1000), nest])
+   13              0.000044   call cursor(v:lnum,1)
+   13   0.002428   0.000276   if s:PreviousToken() is ''
+                                return
+   13              0.000008   endif
+   13              0.000184   let [l:lnum, lcol, pline] = getpos('.')[1:2] + [getline('.')[:col('.')-1]]
+                            
+   13              0.000159   let l:line = substitute(l:line,'^\s*','','')
+   13              0.000038   let l:line_s = l:line[0]
+   13              0.000029   if l:line[:1] == '/*'
+                                let l:line = substitute(l:line,'^\%(\/\*.\{-}\*\/\s*\)*','','')
+   13              0.000007   endif
+   13              0.000076   if l:line =~ '^\/[/*]'
+                                let l:line = ''
+   13              0.000007   endif
+                            
+                              " the containing paren, bracket, or curly. Many hacks for performance
+   13              0.000047   call cursor(v:lnum,1)
+   13              0.000083   let idx = index([']',')','}'],l:line[0])
+   13   0.000347   0.000106   if b:js_cache[0] > l:lnum && b:js_cache[0] < v:lnum || b:js_cache[0] == l:lnum && s:Balanced(l:lnum,pline)
+    8              0.000046     call call('cursor',b:js_cache[1:])
+    5              0.000004   else
+    5              0.000514     let [s:looksyn, s:top_col, s:check_in, s:l1] = [v:lnum - 1,0,0, max([s:l1, &smc ? search('\m^.\{'.&smc.',}','nbW',s:l1 + 1) + 1 : 0])]
+    5              0.000007     try
+    5              0.000008       if idx != -1
+    1   0.008314   0.000019         call s:GetPair(['\[','(','{'][idx],'])}'[idx],'bW','s:SkipFunc()')
+    4              0.000139       elseif getline(v:lnum) !~ '^\S' && s:stack[-1] =~? 'block\|^jsobject$'
+    3   0.091905   0.000075         call s:GetPair('{','}','bW','s:SkipFunc()')
+    1              0.000001       else
+    1   0.017470   0.000018         call s:AlternatePair()
+    5              0.000003       endif
+                                catch /^\Cout of bounds$/
+                                  call cursor(v:lnum,1)
+    5              0.000006     endtry
+    5              0.000037     let b:js_cache[1:] = line('.') == v:lnum ? [0,0] : getpos('.')[1:2]
+   13              0.000011   endif
+                            
+   13              0.000057   let [b:js_cache[0], num] = [v:lnum, b:js_cache[1]]
+                            
+   13   0.000330   0.000291   let [num_ind, is_op, b_l, l:switch_offset, s:in_jsx] = [s:Nat(indent(num)),0,0,0,0]
+   13   0.020622   0.000368   if !num || s:LookingAt() == '{' && s:IsBlock()
+                                let ilnum = line('.')
+                                if num && !s:in_jsx && s:LookingAt() == ')' && s:GetPair('(',')','bW',s:skip_expr)
+                                  if ilnum == num
+                                    let [num, num_ind] = [line('.'), indent('.')]
+                                  endif
+                                  if idx == -1 && s:PreviousToken() ==# 'switch' && s:IsSwitch()
+                                    let l:switch_offset = &cino !~ ':' ? s:sw() : s:ParseCino(':')
+                                    if pline[-1:] != '.' && l:line =~# '^\%(default\|case\)\>'
+                                      return s:Nat(num_ind + l:switch_offset)
+                                    elseif &cino =~ '='
+                                      let l:case_offset = s:ParseCino('=')
+                                    endif
+                                  endif
+                                endif
+                                if idx == -1 && pline[-1:] !~ '[{;]'
+                                  call cursor(l:lnum, lcol)
+                                  let sol = matchstr(l:line,s:opfirst)
+                                  if sol is '' || sol == '/' && s:SynAt(v:lnum, 1 + len(getline(v:lnum)) - len(l:line)) =~? 'regex'
+                                    if s:Continues()
+                                      let is_op = s:sw()
+                                    endif
+                                  elseif num && sol =~# '^\%(in\%(stanceof\)\=\|\*\)$' && s:LookingAt() == '}' && s:GetPair('{','}','bW',s:skip_expr) && s:PreviousToken() == ')' && s:GetPair('(',')','bW',s:skip_expr) && (s:PreviousToken() == ']' || s:LookingAt() =~ '\k' && s:{s:PreviousToken() == '*' ? 'Previous' : ''}Token() !=# 'function')
+                                    return num_ind + s:sw()
+                                  else
+                                    let is_op = s:sw()
+                                  endif
+                                  call cursor(l:lnum, lcol)
+                                  let b_l = s:Nat(s:IsContOne(is_op) - (!is_op && l:line =~ '^{')) * s:sw()
+                                endif
+   13   0.000587   0.000487   elseif idx == -1 && s:LookingAt() == '(' && &cino =~ '(' && (search('\m\S','nbW',num) || s:ParseCino('U'))
+                                let pval = s:ParseCino('(')
+                                if !pval
+                                  let [Wval, vcol] = [s:ParseCino('W'), virtcol('.')]
+                                  if search('\m'.get(g:,'javascript_indent_W_pat','\S'),'W',num)
+                                    return s:ParseCino('w') ? vcol : virtcol('.')-1
+                                  endif
+                                  return Wval ? s:Nat(num_ind + Wval) : vcol
+                                endif
+                                return s:Nat(num_ind + pval + searchpair('\m(','','\m)','nbrmW',s:skip_expr,num) * s:sw())
+   13              0.000008   endif
+                            
+                              " main return
+   13              0.000099   if l:line =~ '^[])}]\|^|}'
+    1              0.000002     if l:line_s == ')'
+                                  if s:ParseCino('M')
+                                    return indent(l:lnum)
+                                  elseif num && &cino =~# 'm' && !s:ParseCino('m')
+                                    return virtcol('.') - 1
+                                  endif
+    1              0.000001     endif
+    1              0.000001     return num_ind
+   12              0.000021   elseif num
+   12   0.000471   0.000370     return s:Nat(num_ind + get(l:,'case_offset',s:sw()) + l:switch_offset + b_l + is_op)
+                              elseif nest
+                                return indent(nextnonblank(nest+1)) + b_l + is_op
+                              endif
+                              return b_l + is_op
+
+FUNCTION  lightline#update_once()
+    Defined: ~/.vim_runtime/sources_non_forked/lightline.vim/autoload/lightline.vim line 30
+Called 323 times
+Total time:   0.005365
+ Self time:   0.005365
+
+count  total (s)   self (s)
+  323              0.002921   if !exists('w:lightline') || w:lightline
+                                call lightline#update()
+  323              0.000468   endif
+
+FUNCTION  <SNR>123_GetVars()
+    Defined: ~/.vim/bundle/vim-javascript/indent/javascript.vim line 45
+Called 13 times
+Total time:   0.000216
+ Self time:   0.000216
+
+count  total (s)   self (s)
+   13              0.000197   call extend(b:,extend(s:bvars,{'js_cache': [0,0,0]}),'keep')
+
+FUNCTION  <SNR>123_SynAt()
+    Defined: ~/.vim/bundle/vim-javascript/indent/javascript.vim line 80
+Called 167 times
+Total time:   0.079492
+ Self time:   0.079492
+
+count  total (s)   self (s)
+  167              0.000866   let byte = line2byte(a:l) + a:c - 1
+  167              0.000673   let pos = index(s:synid_cache[0], byte)
+  167              0.000207   if pos == -1
+  167              0.076410     let s:synid_cache[:] += [[byte], [synIDattr(synID(a:l, a:c, 0), 'name')]]
+  167              0.000249   endif
+  167              0.000839   return s:synid_cache[1][pos]
+
+FUNCTION  <SNR>123_Token()
+    Defined: ~/.vim/bundle/vim-javascript/indent/javascript.vim line 165
+Called 28 times
+Total time:   0.001495
+ Self time:   0.001111
+
+count  total (s)   self (s)
+   28   0.001476   0.001092   return s:LookingAt() =~ '\k' ? expand('<cword>') : s:LookingAt()
+
+FUNCTION  SynEOL()
+    Defined: ~/.vim/bundle/vim-jsx/after/indent/jsx.vim line 38
+Called 13 times
+Total time:   0.005890
+ Self time:   0.005890
+
+count  total (s)   self (s)
+   13              0.000052   let lnum = prevnonblank(a:lnum)
+   13              0.000050   let col = strlen(getline(lnum))
+   13              0.005759   return map(synstack(lnum, col), 'synIDattr(v:val, "name")')
+
+FUNCTION  lightline#highlight()
+    Defined: ~/.vim_runtime/sources_non_forked/lightline.vim/autoload/lightline.vim line 266
+Called 2 times
+Total time:   0.003468
+ Self time:   0.003391
+
+count  total (s)   self (s)
+    2              0.000020   let [c, f] = [s:lightline.palette, s:lightline.mode_fallback]
+    2              0.000032   let [s:lightline.llen, s:lightline.rlen] = [len(c.normal.left), len(c.normal.right)]
+    2              0.000046   let [s:lightline.tab_llen, s:lightline.tab_rlen] = [len(has_key(get(c, 'tabline', {}), 'left') ? c.tabline.left : c.normal.left), len(has_key(get(c, 'tabline', {}), 'right') ? c.tabline.right : c.normal.right)]
+    2              0.000033   let types = map(s:uniq(sort(filter(values(s:lightline.component_type), 'v:val !=# "raw"'))), '[v:val, 1]')
+    2              0.000012   let modes = a:0 ? [a:1] : extend(['normal', 'insert', 'replace', 'visual', 'inactive', 'command', 'select', 'tabline'], exists(':terminal') == 2 ? ['terminal'] : [])
+    4              0.000009   for mode in modes
+    2              0.000007     let s:highlight[mode] = 1
+    2              0.000012     let d = has_key(c, mode) ? mode : has_key(f, mode) && has_key(c, f[mode]) ? f[mode] : 'normal'
+    2              0.000011     let left = d ==# 'tabline' ? s:lightline.tabline.left : d ==# 'inactive' ? s:lightline.inactive.left : s:lightline.active.left
+    2              0.000008     let right = d ==# 'tabline' ? s:lightline.tabline.right : d ==# 'inactive' ? s:lightline.inactive.right : s:lightline.active.right
+    2              0.000019     let ls = has_key(get(c, d, {}), 'left') ? c[d].left : has_key(f, d) && has_key(get(c, f[d], {}), 'left') ? c[f[d]].left : c.normal.left
+    2              0.000022     let ms = has_key(get(c, d, {}), 'middle') ? c[d].middle[0] : has_key(f, d) && has_key(get(c, f[d], {}), 'middle') ? c[f[d]].middle[0] : c.normal.middle[0]
+    2              0.000017     let rs = has_key(get(c, d, {}), 'right') ? c[d].right : has_key(f, d) && has_key(get(c, f[d], {}), 'right') ? c[f[d]].right : c.normal.right
+    6              0.000024     for [p, l, zs] in [['Left', len(left), ls], ['Right', len(right), rs]]
+   20              0.000066       for [i, t] in map(range(0, l), '[v:val, 0]') + types
+   16              0.000026         if i < l || i < 1
+   12              0.000119           let r = t ? (has_key(get(c, d, []), i) ? c[d][i][0] : has_key(get(c, 'tabline', {}), i) ? c.tabline[i][0] : get(c.normal, i, zs)[0]) : get(zs, i, ms)
+   12   0.000488   0.000422           exec printf('hi Lightline%s_%s_%s guifg=%s guibg=%s ctermfg=%s ctermbg=%s %s', p, mode, i, r[0], r[1], r[2], r[3], s:term(r))
+   16              0.000013         endif
+   80              0.000238         for [j, s] in map(range(0, l), '[v:val, 0]') + types
+   64              0.000140           if i + 1 == j || t || s && i != l
+   32              0.000334             let q = s ? (has_key(get(c, d, []), j) ? c[d][j][0] : has_key(get(c, 'tabline', {}), j) ? c.tabline[j][0] : get(c.normal, j, zs)[0]) : (j != l ? get(zs, j, ms) :ms)
+   32              0.000535             exec printf('hi Lightline%s_%s_%s_%s guifg=%s guibg=%s ctermfg=%s ctermbg=%s', p, mode, i, j, r[1], q[1], r[3], q[3])
+   64              0.000041           endif
+   80              0.000071         endfor
+   20              0.000014       endfor
+    6              0.000003     endfor
+    2   0.000070   0.000059     exec printf('hi LightlineMiddle_%s guifg=%s guibg=%s ctermfg=%s ctermbg=%s %s', mode, ms[0], ms[1], ms[2], ms[3], s:term(ms))
+    4              0.000013   endfor
+
+FUNCTION  SynXMLish()
+    Defined: ~/.vim/bundle/vim-jsx/after/indent/jsx.vim line 50
+Called 13 times
+Total time:   0.000587
+ Self time:   0.000277
+
+count  total (s)   self (s)
+   13   0.000575   0.000265   return SynAttrXMLish(get(a:syns, -1))
+
+FUNCTION  lightline#tab#tabnum()
+    Defined: ~/.vim_runtime/sources_non_forked/lightline.vim/autoload/lightline/tab.vim line 28
+Called 9 times
+Total time:   0.000020
+ Self time:   0.000020
+
+count  total (s)   self (s)
+    9              0.000015   return a:n
+
+FUNCTION  fugitive#head()
+    Defined: ~/.vim_runtime/sources_non_forked/vim-fugitive/autoload/fugitive.vim line 4595
+Called 734 times
+Total time:   0.185402
+ Self time:   0.026435
+
+count  total (s)   self (s)
+  734   0.030753   0.011917   if empty(s:Dir())
+                                return ''
+  734              0.000883   endif
+                            
+  734   0.151657   0.011526   return fugitive#Head(a:0 ? a:1 : 0)
+
+FUNCTION  <SNR>123_SearchLoop()
+    Defined: ~/.vim/bundle/vim-javascript/indent/javascript.vim line 198
+Called 9 times
+Total time:   0.001790
+ Self time:   0.000139
+
+count  total (s)   self (s)
+    9   0.001786   0.000135   return s:GetPair(a:pat,'\_$.',a:flags,a:expr)
+
+FUNCTION  <SNR>102_default_register()
+    Defined: ~/.vim_runtime/sources_non_forked/vim-yankstack/autoload/yankstack.vim line 109
+Called 1 time
+Total time:   0.000045
+ Self time:   0.000045
+
+count  total (s)   self (s)
+    1              0.000021   let clipboard_flags = split(&clipboard, ',')
+    1              0.000008   if index(clipboard_flags, 'unnamedplus') >= 0
+                                return "+"
+    1              0.000006   elseif index(clipboard_flags, 'unnamed') >= 0
+                                return "*"
+    1              0.000002   else
+    1              0.000002     return "\""
+                              endif
+
+FUNCTIONS SORTED ON TOTAL TIME
+count  total (s)   self (s)  function
+  410   0.232008             <SNR>109_Highlight_Matching_Pair()
+  734   0.185402   0.026435  fugitive#head()
+   13   0.157597   0.001882  GetJsxIndent()
+   13   0.148262   0.007582  GetJavascriptIndent()
+  734   0.140131   0.124075  fugitive#Head()
+   18   0.133307   0.021156  <SNR>123_GetPair()
+  305   0.099414   0.032796  <SNR>123_SkipFunc()
+  167   0.079492             <SNR>123_SynAt()
+ 1468   0.034892   0.023966  <SNR>137_Dir()
+   14   0.020380   0.001656  <SNR>123_IsBlock()
+  367   0.019442   0.015974  lightline#link()
+    1   0.017452   0.000294  <SNR>123_AlternatePair()
+    1   0.017066   0.000061  <SNR>123_Pure()
+    1   0.016913   0.000446  <SNR>123_ExprCol()
+ 1468   0.010926             FugitiveGitDir()
+   13   0.005890             SynEOL()
+  323   0.005365             lightline#update_once()
+   28   0.003906   0.002411  <SNR>123_PreviousToken()
+    2   0.003468   0.003391  lightline#highlight()
+  367   0.003188             lightline#mode()
+
+FUNCTIONS SORTED ON SELF TIME
+count  total (s)   self (s)  function
+  410              0.232008  <SNR>109_Highlight_Matching_Pair()
+  734   0.140131   0.124075  fugitive#Head()
+  167              0.079492  <SNR>123_SynAt()
+  305   0.099414   0.032796  <SNR>123_SkipFunc()
+  734   0.185402   0.026435  fugitive#head()
+ 1468   0.034892   0.023966  <SNR>137_Dir()
+   18   0.133307   0.021156  <SNR>123_GetPair()
+  367   0.019442   0.015974  lightline#link()
+ 1468              0.010926  FugitiveGitDir()
+   13   0.148262   0.007582  GetJavascriptIndent()
+   13              0.005890  SynEOL()
+  323              0.005365  lightline#update_once()
+    2   0.003468   0.003391  lightline#highlight()
+  367              0.003188  lightline#mode()
+   28   0.003906   0.002411  <SNR>123_PreviousToken()
+   13   0.157597   0.001882  GetJsxIndent()
+   14   0.020380   0.001656  <SNR>123_IsBlock()
+    7   0.001917   0.001337  AutoPairsSpace()
+    9   0.001430   0.001137  lightline#onetab()
+   28   0.001495   0.001111  <SNR>123_Token()
+

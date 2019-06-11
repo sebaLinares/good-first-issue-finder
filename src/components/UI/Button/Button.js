@@ -2,7 +2,7 @@ import React from 'react'
 
 import styles from './Button.module.scss'
 
-const button = props => {
+const Button = props => {
   return (
     <button
       disabled={props.invalid}
@@ -14,4 +14,4 @@ const button = props => {
   )
 }
 
-export default button
+export default Button

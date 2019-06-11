@@ -1,0 +1,660 @@
+FUNCTION  repeat#wrap()
+    Defined: ~/.vim_runtime/sources_non_forked/vim-repeat/autoload/repeat.vim line 132
+Called 1 time
+Total time:   0.000086
+ Self time:   0.000086
+
+count  total (s)   self (s)
+    1              0.000009     let preserve = (g:repeat_tick == b:changedtick)
+    1              0.000008     call feedkeys((a:count ? a:count : '').a:command, 'n')
+    1              0.000060     exe (&foldopen =~# 'undo\|all' ? 'norm! zv' : '')
+    1              0.000002     if preserve
+                                    let g:repeat_tick = b:changedtick
+    1              0.000002     endif
+
+FUNCTION  <SNR>102_before_yank()
+    Defined: ~/.vim_runtime/sources_non_forked/vim-yankstack/autoload/yankstack.vim line 65
+Called 1 time
+Total time:   0.000159
+ Self time:   0.000070
+
+count  total (s)   self (s)
+    1   0.000120   0.000031   let head = s:get_yankstack_head()
+    1              0.000010   if !empty(head.text) && (empty(s:yankstack_tail) || (head != s:yankstack_tail[0]))
+    1              0.000004     call insert(s:yankstack_tail, head)
+    1              0.000023     let s:yankstack_tail = s:yankstack_tail[: g:yankstack_size-1]
+    1              0.000001   endif
+
+FUNCTION  <SNR>175_StopCursorTimer()
+    Defined: ~/.vim_runtime/sources_non_forked/ale/autoload/ale/cursor.vim line 55
+Called 242 times
+Total time:   0.003691
+ Self time:   0.003691
+
+count  total (s)   self (s)
+  242              0.000923     if s:cursor_timer != -1
+  241              0.001394         call timer_stop(s:cursor_timer)
+  241              0.000596         let s:cursor_timer = -1
+  242              0.000250     endif
+
+FUNCTION  ale#ShouldDoNothing()
+    Defined: ~/.vim_runtime/sources_non_forked/ale/autoload/ale.vim line 25
+Called 75 times
+Total time:   0.018150
+ Self time:   0.014478
+
+count  total (s)   self (s)
+                                " The checks are split into separate if statements to make it possible to
+                                " profile each check individually with Vim's profiling tools.
+                                "
+                                " Do nothing if ALE is disabled.
+   75              0.000918     if !getbufvar(a:buffer, 'ale_enabled', get(g:, 'ale_enabled', 0))
+                                    return 1
+   75              0.000081     endif
+                            
+                                " Don't perform any checks when newer NeoVim versions are exiting.
+   75              0.000470     if get(v:, 'exiting', v:null) isnot v:null
+                                    return 1
+   75              0.000066     endif
+                            
+   75              0.000638     let l:filetype = getbufvar(a:buffer, '&filetype')
+                            
+                                " Do nothing when there's no filetype.
+   75              0.000193     if l:filetype is# ''
+                                    return 1
+   75              0.000075     endif
+                            
+                                " Do nothing for diff buffers.
+   75              0.000317     if getbufvar(a:buffer, '&diff')
+                                    return 1
+   75              0.000066     endif
+                            
+                                " Do nothing for blacklisted files.
+   75              0.000707     if index(get(g:, 'ale_filetype_blacklist', []), l:filetype) >= 0
+                                    return 1
+   75              0.000059     endif
+                            
+                                " Do nothing if running from command mode.
+   75              0.000444     if s:getcmdwintype_exists && !empty(getcmdwintype())
+                                    return 1
+   75              0.000062     endif
+                            
+   75              0.000634     let l:filename = fnamemodify(bufname(a:buffer), ':t')
+                            
+                                " Do nothing for directories.
+   75              0.000170     if l:filename is# '.'
+                                    return 1
+   75              0.000061     endif
+                            
+                                " Don't start linting and so on when an operator is pending.
+   75   0.002545   0.001802     if ale#util#Mode(1) is# 'no'
+                                    return 1
+   75              0.000091     endif
+                            
+                                " Do nothing if running in the sandbox.
+   75   0.003192   0.001582     if ale#util#InSandbox()
+                                    return 1
+   75              0.000068     endif
+                            
+                                " Do nothing if the file is too large.
+   75   0.002943   0.001624     if ale#FileTooLarge(a:buffer)
+                                    return 1
+   75              0.000060     endif
+                            
+                                " Do nothing from CtrlP buffers with CtrlP-funky.
+   75              0.001007     if exists(':CtrlPFunky') is 2&& getbufvar(a:buffer, '&l:statusline') =~# 'CtrlPMode.*funky'
+                                    return 1
+   75              0.000074     endif
+                            
+   75              0.000078     return 0
+
+FUNCTION  ale#util#Mode()
+    Defined: ~/.vim_runtime/sources_non_forked/ale/autoload/ale/util.vim line 5
+Called 75 times
+Total time:   0.000743
+ Self time:   0.000743
+
+count  total (s)   self (s)
+   75              0.000637     return call('mode', a:000)
+
+FUNCTION  ale#cursor#EchoCursorWarningWithDelay()
+    Defined: ~/.vim_runtime/sources_non_forked/ale/autoload/ale/cursor.vim line 103
+Called 242 times
+Total time:   0.035473
+ Self time:   0.025608
+
+count  total (s)   self (s)
+  242              0.002068     let l:buffer = bufnr('')
+                            
+  242              0.000701     if !g:ale_echo_cursor && !g:ale_cursor_detail
+                                    return
+  242              0.000331     endif
+                            
+                                " Only echo the warnings in normal mode, otherwise we will get problems.
+  242              0.001194     if mode(1) isnot# 'n'
+                                    return
+  242              0.000181     endif
+                            
+  242   0.010637   0.006946     call s:StopCursorTimer()
+                            
+  242              0.002545     let l:pos = getpos('.')[0:2]
+                            
+                                " Check the current buffer, line, and column number against the last
+                                " recorded position. If the position has actually changed, *then*
+                                " we should echo something. Otherwise we can end up doing processing
+                                " the echo message far too frequently.
+  242              0.000695     if l:pos != s:last_pos
+  242   0.010618   0.004444         let l:delay = ale#Var(l:buffer, 'echo_delay')
+                            
+  242              0.000943         let s:last_pos = l:pos
+  242              0.002002         let s:cursor_timer = timer_start(   l:delay,   function('ale#cursor#EchoCursorWarning'))
+  242              0.000278     endif
+
+FUNCTION  lightline#link()
+    Defined: ~/.vim_runtime/sources_non_forked/lightline.vim/autoload/lightline.vim line 221
+Called 245 times
+Total time:   0.007561
+ Self time:   0.007561
+
+count  total (s)   self (s)
+  245              0.005144   let mode = get(s:lightline._mode_, a:0 ? a:1 : mode(), 'normal')
+  245              0.001119   if s:mode == mode
+  245              0.000505     return ''
+                              endif
+                              let s:mode = mode
+                              if !has_key(s:highlight, mode)
+                                call lightline#highlight(mode)
+                              endif
+                              let types = map(s:uniq(sort(filter(values(s:lightline.component_type), 'v:val !=# "raw"'))), '[v:val, 1]')
+                              for [p, l] in [['Left', len(s:lightline.active.left)], ['Right', len(s:lightline.active.right)]]
+                                for [i, t] in map(range(0, l), '[v:val, 0]') + types
+                                  if i != l
+                                    exec printf('hi link Lightline%s_active_%s Lightline%s_%s_%s', p, i, p, mode, i)
+                                  endif
+                                  for [j, s] in map(range(0, l), '[v:val, 0]') + types
+                                    if i + 1 == j || t || s && i != l
+                                      exec printf('hi link Lightline%s_active_%s_%s Lightline%s_%s_%s_%s', p, i, j, p, mode, i, j)
+                                    endif
+                                  endfor
+                                endfor
+                              endfor
+                              exec printf('hi link LightlineMiddle_active LightlineMiddle_%s', mode)
+                              return ''
+
+FUNCTION  ale#FileTooLarge()
+    Defined: ~/.vim_runtime/sources_non_forked/ale/autoload/ale.vim line 17
+Called 75 times
+Total time:   0.001319
+ Self time:   0.001319
+
+count  total (s)   self (s)
+   75              0.000707     let l:max = getbufvar(a:buffer, 'ale_maximum_file_size', get(g:, 'ale_maximum_file_size', 0))
+                            
+   75              0.000447     return l:max > 0 ? (line2byte(line('$') + 1) > l:max) : 0
+
+FUNCTION  ale#Var()
+    Defined: ~/.vim_runtime/sources_non_forked/ale/autoload/ale.vim line 179
+Called 242 times
+Total time:   0.006174
+ Self time:   0.006174
+
+count  total (s)   self (s)
+  242              0.001224     let l:full_name = 'ale_' . a:variable_name
+  242              0.002758     let l:vars = getbufvar(str2nr(a:buffer), '', {})
+                            
+  242              0.001639     return get(l:vars, l:full_name, g:[l:full_name])
+
+FUNCTION  FugitiveGitDir()
+    Defined: ~/.vim_runtime/sources_non_forked/vim-fugitive/plugin/fugitive.vim line 11
+Called 980 times
+Total time:   0.008590
+ Self time:   0.008590
+
+count  total (s)   self (s)
+  980              0.002609   if !a:0 || a:1 ==# -1
+  980              0.004849     return get(b:, 'git_dir', '')
+                              elseif type(a:1) == type(0)
+                                return getbufvar(a:1, 'git_dir')
+                              elseif type(a:1) == type('')
+                                return substitute(s:Slash(a:1), '/$', '', '')
+                              else
+                                return ''
+                              endif
+
+FUNCTION  <SNR>109_Highlight_Matching_Pair()
+    Defined: /usr/local/Cellar/vim/8.1.1200/share/vim/vim81/plugin/matchparen.vim line 39
+Called 244 times
+Total time:   0.176603
+ Self time:   0.176603
+
+count  total (s)   self (s)
+                              " Remove any previous match.
+  244              0.001361   if exists('w:paren_hl_on') && w:paren_hl_on
+   30              0.000116     silent! call matchdelete(3)
+   30              0.000056     let w:paren_hl_on = 0
+  244              0.000234   endif
+                            
+                              " Avoid that we remove the popup menu.
+                              " Return when there are no colors (looks like the cursor jumps).
+  244              0.001855   if pumvisible() || (&t_Co < 8 && !has("gui_running"))
+                                return
+  244              0.000180   endif
+                            
+                              " Get the character under the cursor and check if it's in 'matchpairs'.
+  244              0.000956   let c_lnum = line('.')
+  244              0.000774   let c_col = col('.')
+  244              0.000355   let before = 0
+                            
+  244              0.000927   let text = getline(c_lnum)
+  244              0.009719   let matches = matchlist(text, '\(.\)\=\%'.c_col.'c\(.\=\)')
+  244              0.000948   if empty(matches)
+                                let [c_before, c] = ['', '']
+  244              0.000257   else
+  244              0.001539     let [c_before, c] = matches[1:2]
+  244              0.000211   endif
+  244              0.007130   let plist = split(&matchpairs, '.\zs[:,]')
+  244              0.001187   let i = index(plist, c)
+  244              0.000540   if i < 0
+                                " not found, in Insert mode try character before the cursor
+  211              0.001199     if c_col > 1 && (mode() == 'i' || mode() == 'R')
+                                  let before = strlen(c_before)
+                                  let c = c_before
+                                  let i = index(plist, c)
+  211              0.000194     endif
+  211              0.000294     if i < 0
+                                  " not found, nothing to do
+  211              0.000289       return
+                                endif
+   33              0.000018   endif
+                            
+                              " Figure out the arguments for searchpairpos().
+   33              0.000041   if i % 2 == 0
+   17              0.000028     let s_flags = 'nW'
+   17              0.000061     let c2 = plist[i + 1]
+   16              0.000013   else
+   16              0.000024     let s_flags = 'nbW'
+   16              0.000021     let c2 = c
+   16              0.000047     let c = plist[i - 1]
+   33              0.000021   endif
+   33              0.000061   if c == '['
+   13              0.000014     let c = '\['
+   13              0.000015     let c2 = '\]'
+   33              0.000018   endif
+                            
+                              " Find the match.  When it was just before the cursor move it there for a
+                              " moment.
+   33              0.000037   if before > 0
+                                let has_getcurpos = exists("*getcurpos")
+                                if has_getcurpos
+                                  " getcurpos() is more efficient but doesn't exist before 7.4.313.
+                                  let save_cursor = getcurpos()
+                                else
+                                  let save_cursor = winsaveview()
+                                endif
+                                call cursor(c_lnum, c_col - before)
+   33              0.000021   endif
+                            
+   33              0.000245   if !has("syntax") || !exists("g:syntax_on")
+                                let s_skip = "0"
+   33              0.000016   else
+                                " Build an expression that detects whether the current cursor position is
+                                " in certain syntax types (string, comment, etc.), for use as
+                                " searchpairpos()'s skip argument.
+                                " We match "escape" for special items, such as lispEscapeSpecial.
+   33              0.000148     let s_skip = '!empty(filter(map(synstack(line("."), col(".")), ''synIDattr(v:val, "name")''), ' . '''v:val =~? "string\\|character\\|singlequote\\|escape\\|comment"''))'
+                                " If executing the expression determines that the cursor is currently in
+                                " one of the syntax types, then we want searchpairpos() to find the pair
+                                " within those syntax types (i.e., not skip).  Otherwise, the cursor is
+                                " outside of the syntax types and s_skip should keep its value so we skip
+                                " any matching pair inside the syntax types.
+                                " Catch if this throws E363: pattern uses more memory than 'maxmempattern'.
+   33              0.000037     try
+   33              0.010119       execute 'if ' . s_skip . ' | let s_skip = "0" | endif'
+                                catch /^Vim\%((\a\+)\)\=:E363/
+                                  " We won't find anything, so skip searching, should keep Vim responsive.
+                                  return
+   33              0.000039     endtry
+   33              0.000023   endif
+                            
+                              " Limit the search to lines visible in the window.
+   33              0.000189   let stoplinebottom = line('w$')
+   33              0.000107   let stoplinetop = line('w0')
+   33              0.000073   if i % 2 == 0
+   17              0.000047     let stopline = stoplinebottom
+   16              0.000009   else
+   16              0.000035     let stopline = stoplinetop
+   33              0.000018   endif
+                            
+                              " Limit the search time to 300 msec to avoid a hang on very long lines.
+                              " This fails when a timeout is not supported.
+   33              0.000255   if mode() == 'i' || mode() == 'R'
+                                let timeout = exists("b:matchparen_insert_timeout") ? b:matchparen_insert_timeout : g:matchparen_insert_timeout
+   33              0.000023   else
+   33              0.000170     let timeout = exists("b:matchparen_timeout") ? b:matchparen_timeout : g:matchparen_timeout
+   33              0.000021   endif
+   33              0.000027   try
+   33              0.122419     let [m_lnum, m_col] = searchpairpos(c, '', c2, s_flags, s_skip, stopline, timeout)
+                              catch /E118/
+                                " Can't use the timeout, restrict the stopline a bit more to avoid taking
+                                " a long time on closed folds and long lines.
+                                " The "viewable" variables give a range in which we can scroll while
+                                " keeping the cursor at the same position.
+                                " adjustedScrolloff accounts for very large numbers of scrolloff.
+                                let adjustedScrolloff = min([&scrolloff, (line('w$') - line('w0')) / 2])
+                                let bottom_viewable = min([line('$'), c_lnum + &lines - adjustedScrolloff - 2])
+                                let top_viewable = max([1, c_lnum-&lines+adjustedScrolloff + 2])
+                                " one of these stoplines will be adjusted below, but the current values are
+                                " minimal boundaries within the current window
+                                if i % 2 == 0
+                                  if has("byte_offset") && has("syntax_items") && &smc > 0
+                            	let stopbyte = min([line2byte("$"), line2byte(".") + col(".") + &smc * 2])
+                            	let stopline = min([bottom_viewable, byte2line(stopbyte)])
+                                  else
+                            	let stopline = min([bottom_viewable, c_lnum + 100])
+                                  endif
+                                  let stoplinebottom = stopline
+                                else
+                                  if has("byte_offset") && has("syntax_items") && &smc > 0
+                            	let stopbyte = max([1, line2byte(".") + col(".") - &smc * 2])
+                            	let stopline = max([top_viewable, byte2line(stopbyte)])
+                                  else
+                            	let stopline = max([top_viewable, c_lnum - 100])
+                                  endif
+                                  let stoplinetop = stopline
+                                endif
+                                let [m_lnum, m_col] = searchpairpos(c, '', c2, s_flags, s_skip, stopline)
+   33              0.000049   endtry
+                            
+   33              0.000048   if before > 0
+                                if has_getcurpos
+                                  call setpos('.', save_cursor)
+                                else
+                                  call winrestview(save_cursor)
+                                endif
+   33              0.000023   endif
+                            
+                              " If a match is found setup match highlighting.
+   33              0.000086   if m_lnum > 0 && m_lnum >= stoplinetop && m_lnum <= stoplinebottom 
+   30              0.000127     if exists('*matchaddpos')
+   30              0.001465       call matchaddpos('MatchParen', [[c_lnum, c_col - before], [m_lnum, m_col]], 10, 3)
+                                else
+                                  exe '3match MatchParen /\(\%' . c_lnum . 'l\%' . (c_col - before) . 'c\)\|\(\%' . m_lnum . 'l\%' . m_col . 'c\)/'
+   30              0.000023     endif
+   30              0.000086     let w:paren_hl_on = 1
+   33              0.000024   endif
+
+FUNCTION  ale#util#BinarySearch()
+    Defined: ~/.vim_runtime/sources_non_forked/ale/autoload/ale/util.vim line 226
+Called 75 times
+Total time:   0.001154
+ Self time:   0.001154
+
+count  total (s)   self (s)
+   75              0.000165     let l:min = 0
+   75              0.000309     let l:max = len(a:loclist) - 1
+                            
+   75              0.000141     while 1
+   75              0.000195         if l:max < l:min
+   75              0.000111             return -1
+                                    endif
+                            
+                                    let l:mid = (l:min + l:max) / 2
+                                    let l:item = a:loclist[l:mid]
+                            
+                                    " Binary search for equal buffers, equal lines, then near columns.
+                                    if l:item.bufnr < a:buffer
+                                        let l:min = l:mid + 1
+                                    elseif l:item.bufnr > a:buffer
+                                        let l:max = l:mid - 1
+                                    elseif l:item.lnum < a:line
+                                        let l:min = l:mid + 1
+                                    elseif l:item.lnum > a:line
+                                        let l:max = l:mid - 1
+                                    else
+                                        " This part is a small sequential search.
+                                        let l:index = l:mid
+                            
+                                        " Search backwards to find the first problem on the line.
+                                        while l:index > 0&& a:loclist[l:index - 1].bufnr == a:buffer&& a:loclist[l:index - 1].lnum == a:line
+                                            let l:index -= 1
+                                        endwhile
+                            
+                                        " Find the last problem on or before this column.
+                                        while l:index < l:max&& a:loclist[l:index + 1].bufnr == a:buffer&& a:loclist[l:index + 1].lnum == a:line&& a:loclist[l:index + 1].col <= a:column
+                                            let l:index += 1
+                                        endwhile
+                            
+                                        " Scan forwards to find the last item on the column for the item
+                                        " we found, which will have the most serious problem.
+                                        let l:item_column = a:loclist[l:index].col
+                            
+                                        while l:index < l:max&& a:loclist[l:index + 1].bufnr == a:buffer&& a:loclist[l:index + 1].lnum == a:line&& a:loclist[l:index + 1].col == l:item_column
+                                            let l:index += 1
+                                        endwhile
+                            
+                                        return l:index
+                                    endif
+                                endwhile
+
+FUNCTION  lightline#mode()
+    Defined: ~/.vim_runtime/sources_non_forked/lightline.vim/autoload/lightline.vim line 216
+Called 245 times
+Total time:   0.002425
+ Self time:   0.002425
+
+count  total (s)   self (s)
+  245              0.002106   return get(s:lightline.mode_map, mode(), '')
+
+FUNCTION  <SNR>137_Dir()
+    Defined: ~/.vim_runtime/sources_non_forked/vim-fugitive/autoload/fugitive.vim line 225
+Called 980 times
+Total time:   0.027412
+ Self time:   0.018822
+
+count  total (s)   self (s)
+  980   0.026586   0.017996   return a:0 ? FugitiveGitDir(a:1) : FugitiveGitDir()
+
+FUNCTION  fugitive#Head()
+    Defined: ~/.vim_runtime/sources_non_forked/vim-fugitive/autoload/fugitive.vim line 324
+Called 490 times
+Total time:   0.116375
+ Self time:   0.103126
+
+count  total (s)   self (s)
+  490   0.022293   0.009044   let dir = a:0 > 1 ? a:2 : s:Dir()
+  490              0.036832   if empty(dir) || !filereadable(dir . '/HEAD')
+                                return ''
+  490              0.000549   endif
+  490              0.030383   let head = readfile(dir . '/HEAD')[0]
+  490              0.009143   if head =~# '^ref: '
+  490              0.014182     return substitute(head, '\C^ref: \%(refs/\%(heads/\|remotes/\|tags/\)\=\)\=', '', '')
+                              elseif head =~# '^\x\{40\}$'
+                                let len = a:0 ? a:1 : 0
+                                return len < 0 ? head : len ? head[0:len-1] : ''
+                              else
+                                return ''
+                              endif
+
+FUNCTION  ale#util#FindItemAtCursor()
+    Defined: ~/.vim_runtime/sources_non_forked/ale/autoload/ale/util.vim line 470
+Called 75 times
+Total time:   0.005085
+ Self time:   0.003931
+
+count  total (s)   self (s)
+   75              0.000702     let l:info = get(g:ale_buffer_info, a:buffer, {})
+   75              0.000376     let l:loclist = get(l:info, 'loclist', [])
+   75              0.000319     let l:pos = getpos('.')
+   75   0.003010   0.001856     let l:index = ale#util#BinarySearch(l:loclist, a:buffer, l:pos[1], l:pos[2])
+   75              0.000305     let l:loc = l:index >= 0 ? l:loclist[l:index] : {}
+                            
+   75              0.000189     return [l:info, l:loc]
+
+FUNCTION  <SNR>102_get_yankstack_head()
+    Defined: ~/.vim_runtime/sources_non_forked/vim-yankstack/autoload/yankstack.vim line 91
+Called 1 time
+Total time:   0.000089
+ Self time:   0.000044
+
+count  total (s)   self (s)
+    1   0.000079   0.000034   let reg = s:default_register()
+    1              0.000008   return { 'text': getreg(reg), 'type': getregtype(reg) }
+
+FUNCTION  ale#util#InSandbox()
+    Defined: ~/.vim_runtime/sources_non_forked/ale/autoload/ale/util.vim line 284
+Called 75 times
+Total time:   0.001610
+ Self time:   0.001610
+
+count  total (s)   self (s)
+   75              0.000152     try
+   75              0.000695         let &l:equalprg=&l:equalprg
+                                catch /E48/
+                                    " E48 is the sandbox error.
+                                    return 1
+   75              0.000113     endtry
+                            
+   75              0.000081     return 0
+
+FUNCTION  <SNR>102_yank_with_key()
+    Defined: ~/.vim_runtime/sources_non_forked/vim-yankstack/autoload/yankstack.vim line 16
+Called 1 time
+Total time:   0.000198
+ Self time:   0.000039
+
+count  total (s)   self (s)
+    1   0.000195   0.000036   call s:before_yank()
+    1              0.000002   return a:key
+
+FUNCTION  lightline#update_once()
+    Defined: ~/.vim_runtime/sources_non_forked/lightline.vim/autoload/lightline.vim line 30
+Called 242 times
+Total time:   0.003244
+ Self time:   0.003244
+
+count  total (s)   self (s)
+  242              0.001947   if !exists('w:lightline') || w:lightline
+                                call lightline#update()
+  242              0.000227   endif
+
+FUNCTION  ale#cursor#EchoCursorWarning()
+    Defined: ~/.vim_runtime/sources_non_forked/ale/autoload/ale/cursor.vim line 62
+Called 75 times
+Total time:   0.033663
+ Self time:   0.010428
+
+count  total (s)   self (s)
+   75              0.001189     let l:buffer = bufnr('')
+                            
+   75              0.000376     if !g:ale_echo_cursor && !g:ale_cursor_detail
+                                    return
+   75              0.000123     endif
+                            
+                                " Only echo the warnings in normal mode, otherwise we will get problems.
+   75              0.000470     if mode(1) isnot# 'n'
+                                    return
+   75              0.000083     endif
+                            
+   75   0.020260   0.002110     if ale#ShouldDoNothing(l:buffer)
+                                    return
+   75              0.000051     endif
+                            
+   75   0.007049   0.001964     let [l:info, l:loc] = ale#util#FindItemAtCursor(l:buffer)
+                            
+   75              0.000137     if g:ale_echo_cursor
+   75              0.000202         if !empty(l:loc)
+                                        let l:format = ale#Var(l:buffer, 'echo_msg_format')
+                                        let l:msg = ale#GetLocItemMessage(l:loc, l:format)
+                                        call ale#cursor#TruncatedEcho(l:msg)
+                                        let l:info.echoed = 1
+   75              0.000248         elseif get(l:info, 'echoed')
+                                        " We'll only clear the echoed message when moving off errors once,
+                                        " so we don't continually clear the echo line.
+                                        execute 'echo'
+                                        let l:info.echoed = 0
+   75              0.000071         endif
+   75              0.000066     endif
+                            
+   75              0.000112     if g:ale_cursor_detail
+                                    if !empty(l:loc)
+                                        call s:ShowCursorDetailForItem(l:loc, {'stay_here': 1})
+                                    else
+                                        call ale#preview#CloseIfTypeMatches('ale-preview')
+                                    endif
+   75              0.000051     endif
+
+FUNCTION  fugitive#head()
+    Defined: ~/.vim_runtime/sources_non_forked/vim-fugitive/autoload/fugitive.vim line 4595
+Called 490 times
+Total time:   0.152333
+ Self time:   0.021795
+
+count  total (s)   self (s)
+  490   0.023965   0.009802   if empty(s:Dir())
+                                return ''
+  490              0.000666   endif
+                            
+  490   0.126016   0.009641   return fugitive#Head(a:0 ? a:1 : 0)
+
+FUNCTION  <SNR>102_default_register()
+    Defined: ~/.vim_runtime/sources_non_forked/vim-yankstack/autoload/yankstack.vim line 109
+Called 1 time
+Total time:   0.000045
+ Self time:   0.000045
+
+count  total (s)   self (s)
+    1              0.000029   let clipboard_flags = split(&clipboard, ',')
+    1              0.000006   if index(clipboard_flags, 'unnamedplus') >= 0
+                                return "+"
+    1              0.000003   elseif index(clipboard_flags, 'unnamed') >= 0
+                                return "*"
+    1              0.000001   else
+    1              0.000002     return "\""
+                              endif
+
+FUNCTIONS SORTED ON TOTAL TIME
+count  total (s)   self (s)  function
+  244   0.176603             <SNR>109_Highlight_Matching_Pair()
+  490   0.152333   0.021795  fugitive#head()
+  490   0.116375   0.103126  fugitive#Head()
+  242   0.035473   0.025608  ale#cursor#EchoCursorWarningWithDelay()
+   75   0.033663   0.010428  ale#cursor#EchoCursorWarning()
+  980   0.027412   0.018822  <SNR>137_Dir()
+   75   0.018150   0.014478  ale#ShouldDoNothing()
+  980   0.008590             FugitiveGitDir()
+  245   0.007561             lightline#link()
+  242   0.006174             ale#Var()
+   75   0.005085   0.003931  ale#util#FindItemAtCursor()
+  242   0.003691             <SNR>175_StopCursorTimer()
+  242   0.003244             lightline#update_once()
+  245   0.002425             lightline#mode()
+   75   0.001610             ale#util#InSandbox()
+   75   0.001319             ale#FileTooLarge()
+   75   0.001154             ale#util#BinarySearch()
+   75   0.000743             ale#util#Mode()
+    1   0.000198   0.000039  <SNR>102_yank_with_key()
+    1   0.000159   0.000070  <SNR>102_before_yank()
+
+FUNCTIONS SORTED ON SELF TIME
+count  total (s)   self (s)  function
+  244              0.176603  <SNR>109_Highlight_Matching_Pair()
+  490   0.116375   0.103126  fugitive#Head()
+  242   0.035473   0.025608  ale#cursor#EchoCursorWarningWithDelay()
+  490   0.152333   0.021795  fugitive#head()
+  980   0.027412   0.018822  <SNR>137_Dir()
+   75   0.018150   0.014478  ale#ShouldDoNothing()
+   75   0.033663   0.010428  ale#cursor#EchoCursorWarning()
+  980              0.008590  FugitiveGitDir()
+  245              0.007561  lightline#link()
+  242              0.006174  ale#Var()
+   75   0.005085   0.003931  ale#util#FindItemAtCursor()
+  242              0.003691  <SNR>175_StopCursorTimer()
+  242              0.003244  lightline#update_once()
+  245              0.002425  lightline#mode()
+   75              0.001610  ale#util#InSandbox()
+   75              0.001319  ale#FileTooLarge()
+   75              0.001154  ale#util#BinarySearch()
+   75              0.000743  ale#util#Mode()
+    1              0.000086  repeat#wrap()
+    1   0.000159   0.000070  <SNR>102_before_yank()
+
