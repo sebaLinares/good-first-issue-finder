@@ -144,6 +144,7 @@ const RepoFinder = props => {
             updated_at: date[0],
             stars: el.stargazers_count,
             img: el.owner.avatar_url,
+            url: el.html_url,
           }
         })
         console.log(reposArr)
