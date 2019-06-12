@@ -21,3 +21,10 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Specific files
+.env
+.eslintrc
+.prettierrc
+.gitignore
+.profile.log
