@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/good-first-issue-finder/static/css/main.d69cac64.chunk.css",
-    "main.js": "/good-first-issue-finder/static/js/main.54f3c33b.chunk.js",
-    "main.js.map": "/good-first-issue-finder/static/js/main.54f3c33b.chunk.js.map",
+    "main.js": "/good-first-issue-finder/static/js/main.4cc6b8dc.chunk.js",
+    "main.js.map": "/good-first-issue-finder/static/js/main.4cc6b8dc.chunk.js.map",
     "runtime~main.js": "/good-first-issue-finder/static/js/runtime~main.62f42291.js",
     "runtime~main.js.map": "/good-first-issue-finder/static/js/runtime~main.62f42291.js.map",
     "static/js/2.240c1dcc.chunk.js": "/good-first-issue-finder/static/js/2.240c1dcc.chunk.js",
     "static/js/2.240c1dcc.chunk.js.map": "/good-first-issue-finder/static/js/2.240c1dcc.chunk.js.map",
     "index.html": "/good-first-issue-finder/index.html",
-    "precache-manifest.b644eb09dff2ec6d6c676b9e33a9320f.js": "/good-first-issue-finder/precache-manifest.b644eb09dff2ec6d6c676b9e33a9320f.js",
+    "precache-manifest.548d483cbbf1c0cf9187a9cfbdc042a7.js": "/good-first-issue-finder/precache-manifest.548d483cbbf1c0cf9187a9cfbdc042a7.js",
     "service-worker.js": "/good-first-issue-finder/service-worker.js",
     "static/css/main.d69cac64.chunk.css.map": "/good-first-issue-finder/static/css/main.d69cac64.chunk.css.map"
   }
