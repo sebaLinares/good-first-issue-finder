@@ -133,24 +133,25 @@ const RepoFinder = props => {
   })
   const [repos, setRepos] = useState('')
   useEffect(() => {
-    axios
-      .get(url)
-      .then(res => {
-        const reposArr = res.data.items.map(el => {
-          const date = el.updated_at.split('T')
-          return {
-            id: el.id,
-            name: el.full_name,
-            updated_at: date[0],
-            stars: el.stargazers_count,
-            img: el.owner.avatar_url,
-            url: el.html_url,
-          }
+    if (url) {
+      axios
+        .get(url)
+        .then(res => {
+          const reposarr = res.data.items.map(el => {
+            const date = el.updated_at.split('t')
+            return {
+              id: el.id,
+              name: el.full_name,
+              updated_at: date[0],
+              stars: el.stargazers_count,
+              img: el.owner.avatar_url,
+              url: el.html_url,
+            }
+          })
+          setRepos(reposarr)
         })
-        console.log(reposArr)
-        setRepos(reposArr)
-      })
-      .catch(err => console.log(err))
+        .catch(err => console.log(err))
+    }
   }, [url])
   const onChangeHandler = (event, id) => {
     // Copy 1st level
