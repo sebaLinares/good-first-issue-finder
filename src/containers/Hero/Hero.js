@@ -2,8 +2,6 @@ import React from 'react'
 
 import styles from './Hero.module.scss'
 
-import GITHUB_ICON from './../../images/icons/github.svg'
-
 const Hero = props => {
   return (
     <div className={styles.Hero}>

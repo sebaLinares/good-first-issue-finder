@@ -8,7 +8,7 @@ const input = props => {
     case 'select':
       inputElement = (
         <select
-          className={styles.InputElement}
+          className={styles.SelectElement}
           value={props.value}
           onChange={props.changed}
         >

@@ -17,7 +17,7 @@ const RepoFinder = props => {
   const [url, setUrl] = useState('')
   const [inputs, setInputs] = useState({
     language: {
-      label: 'What programming language you want to get issues of ',
+      label: 'Language',
       elementType: 'select',
       value: '',
       elementConfig: {
@@ -29,7 +29,7 @@ const RepoFinder = props => {
       },
     },
     monthCreatedFrom: {
-      label: 'From what month',
+      label: 'From month',
       elementType: 'select',
       value: '',
       elementConfig: {
@@ -50,7 +50,7 @@ const RepoFinder = props => {
       },
     },
     yearCreatedFrom: {
-      label: 'Of which year',
+      label: 'From year',
       elementType: 'select',
       value: '',
       elementConfig: {
@@ -72,7 +72,7 @@ const RepoFinder = props => {
       },
     },
     monthCreatedTo: {
-      label: 'To what month',
+      label: 'To month',
       elementType: 'select',
       value: '',
       elementConfig: {
@@ -93,7 +93,7 @@ const RepoFinder = props => {
       },
     },
     yearCreatedTo: {
-      label: 'Of which year',
+      label: 'To year',
       elementType: 'select',
       value: '',
       elementConfig: {
