@@ -16,8 +16,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "predeploy":"yarn run build",
-    "deploy":"gh-pages -d build"
+    "predeploy": "yarn run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -40,5 +40,5 @@
     "eslint-plugin-prettier": "^3.1.0",
     "prettier": "^1.17.1"
   },
-  "homepage":"https://sebalinares.github.io/good-first-issue-finder/"
+  "homepage": "https://sebalinares.github.io/good-first-issue-finder/"
 }
