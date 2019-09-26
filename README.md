@@ -4,6 +4,8 @@ GFIF is aimed to be an easy way for newcomers in the open software world, that f
 
 This will be my first OSS and part of my #100DaysOfCode Challenge, so it'll be used primarily for learning purposes. Any contribution is much appreciate and if you haven't done any open source contribution and wish to learn how to contribute, it's a wonderful oportunity for us both.
 
+You can find the app in [THIS LINK](https://sebalinares.github.io/good-first-issue-finder/) 
+
 ## :dart: App purpose
 To be an easy way to find repos, with opened issues, that have the `good first issue` label :label:. The user will be able find repos, with this kind of issues, by the year created, the programming language written in or the stars they have. This will give the user the possibility to find a wide range of repositories that have good issues for **his first open source contributions**.
 
