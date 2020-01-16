@@ -2,13 +2,13 @@
 
 GFIF is aimed to be an easy way for newcomers in the open software world, that for no particular reason want to start contributing to open source (like me). It has come to my attention the difficulty of finding `good first issue` issues in a variety of github repositories - not the same libraries that are always being featured.
 
-This will be my first OSS and part of my #100DaysOfCode Challenge, so it'll be used primarily for learning purposes. Any contribution is much appreciate and if you haven't done any open source contribution and wish to learn how to contribute, it's a wonderful oportunity for us both.
+This will be my first OSS and part of my #100DaysOfCode Challenge, so it'll be used primarily for learning purposes. Any contribution is much appreciated and if you haven't done any open source contribution and wish to learn how to contribute, it's a wonderful oportunity for us both.
 
 [You can find the app :zap:](https://sebalinares.github.io/good-first-issue-finder/)
 
 ## :dart: App purpose
 
-To be an easy way to find repos, with opened issues, that have the `good first issue` label :label:. The user will be able find repos, with this kind of issues, by the year created, the programming language written in or the stars they have. This will give the user the possibility to find a wide range of repositories that have good issues for **his first open source contributions**.
+To be an easy way to find repos, with opened issues, that have the `good first issue` label :label:. The user will be able to find repos, with this kind of issues, by the year created, the programming language written in or the stars they have. This will give the user the possibility to find a wide range of repositories that have good issues for **his first open source contributions**.
 
 ## :wrench: Installing / Getting started
 
