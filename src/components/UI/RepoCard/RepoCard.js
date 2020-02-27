@@ -1,15 +1,26 @@
-import React from 'react'
+import React from 'react';
+import PropTypes from 'prop-types';
 
 // Style imports
-import styles from './RepoCard.module.scss'
+import styles from './RepoCard.module.scss';
 
-const RepoCard = props => (
+const RepoCard = ({ img, name, stars, updatedAt }) => (
   <div className={styles.RepoCard}>
-    <img src={props.img} alt="repo-avatar" />
-    <h3>{props.name}</h3>
-    <p>{props.stars} &#9733;</p>
-    <p>Last update: {props.updated_at}</p>
+    <img src={img} alt="repo-avatar" />
+    <h3>{name}</h3>
+    <p>{stars} &#9733; </p>
+    <p>
+      Last update:
+      {updatedAt}
+    </p>
   </div>
-)
+);
 
-export default RepoCard
+export default RepoCard;
+
+RepoCard.propTypes = {
+  img: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  stars: PropTypes.number.isRequired,
+  updatedAt: PropTypes.string.isRequired,
+};
