@@ -5,7 +5,7 @@ import styles from './Hero.module.scss'
 const Hero = props => {
   return (
     <div className={styles.Hero}>
-      <h1>Good First Issue Finder</h1>
+      <h1>Good First Issue Finder V2.0</h1>
       <h2>Make you first open source contribution!</h2>
       <div className={styles.Contribute}>
         <p>Contribute to this repo</p>
