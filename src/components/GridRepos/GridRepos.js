@@ -1,14 +1,14 @@
-import React from 'react'
+import React from 'react';
 
 // Style imports
-import styles from './GridRepos.module.scss'
+import styles from './GridRepos.module.scss';
 
 // UI imports
-import RepoCard from './../UI/RepoCard/RepoCard'
+import RepoCard from '../UI/RepoCard/RepoCard';
 
 const GridRepos = props => {
-  const gridArr = [...props.repos]
-  let grid = gridArr.map(el => (
+  const gridArr = [...props.repos];
+  const grid = gridArr.map(el => (
     <a key={el.id} rel="noopener noreferrer" href={el.url} target="_blank">
       <RepoCard
         className={styles.repoCard}
@@ -18,13 +18,13 @@ const GridRepos = props => {
         img={el.img}
       />
     </a>
-  ))
+  ));
 
   return (
     <div className={styles.GridRepo}>
       <div className={styles.GridContainer}>{grid}</div>
     </div>
-  )
-}
+  );
+};
 
-export default GridRepos
+export default GridRepos;

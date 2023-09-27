@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 
 // Style imports
-import styles from './RepoFinder.module.scss'
+import axios from 'axios';
+import styles from './RepoFinder.module.scss';
 
 // Package imports
-import axios from 'axios'
 
 // Container imports
-import GridRepos from './../../components/GridRepos/GridRepos'
+import GridRepos from '../../components/GridRepos/GridRepos';
 
 // UI imports
-import Input from './../../components/UI/Input/Input'
-import Button from './../../components/UI/Button/Button'
+import Input from '../../components/UI/Input/Input';
+import Button from '../../components/UI/Button/Button';
 
 const RepoFinder = props => {
-  const [url, setUrl] = useState('')
+  const [url, setUrl] = useState('');
   const [inputs, setInputs] = useState({
     language: {
       label: 'Language',
@@ -130,15 +130,15 @@ const RepoFinder = props => {
         options: [],
       },
     },
-  })
-  const [repos, setRepos] = useState('')
+  });
+  const [repos, setRepos] = useState('');
   useEffect(() => {
     if (url) {
       axios
         .get(url)
         .then(res => {
           const reposarr = res.data.items.map(el => {
-            const date = el.updated_at.split('t')
+            const date = el.updated_at.split('t');
             return {
               id: el.id,
               name: el.full_name,
@@ -146,63 +146,57 @@ const RepoFinder = props => {
               stars: el.stargazers_count,
               img: el.owner.avatar_url,
               url: el.html_url,
-            }
-          })
-          setRepos(reposarr)
+            };
+          });
+          setRepos(reposarr);
         })
-        .catch(err => console.log(err))
+        .catch(err => console.log(err));
     }
-  }, [url])
+  }, [url]);
   const onChangeHandler = (event, id) => {
     // Copy 1st level
     const updatedInputs = {
       ...inputs,
-    }
+    };
     // Copy 2nd level
     const updatedInputElement = {
       ...updatedInputs[id],
-    }
+    };
     // Update the copy of 2nd level
-    updatedInputElement.value = event.target.value
+    updatedInputElement.value = event.target.value;
     // Update the copy of 1st level
-    updatedInputs[id] = updatedInputElement
+    updatedInputs[id] = updatedInputElement;
     // Update state with the indirectly with the copied state
-    setInputs(updatedInputs)
-  }
+    setInputs(updatedInputs);
+  };
 
   // Transform the state into an iterable array for render
-  const formElementsArr = []
-  for (let el in inputs) {
+  const formElementsArr = [];
+  for (const el in inputs) {
     formElementsArr.push({
       id: el,
       config: inputs[el],
-    })
+    });
   }
 
   const formHandler = event => {
-    event.preventDefault()
-    console.log(formElementsArr)
+    event.preventDefault();
+    console.log(formElementsArr);
 
     // Start building the query string for api search
     // base url
     const baseUrl =
-      'https://api.github.com/search/repositories?q=good-first-issues:>0'
-    const language = `topic:${formElementsArr[0].config.value}`
-    const stars = `stars:${formElementsArr[5].config.value}..${
-      formElementsArr[6].config.value
-    }`
-    const created = `created:${formElementsArr[2].config.value}-${
-      formElementsArr[1].config.value
-    }-01..${formElementsArr[4].config.value}-${
-      formElementsArr[3].config.value
-    }-01`
+      'https://api.github.com/search/repositories?q=good-first-issues:>0';
+    const language = `topic:${formElementsArr[0].config.value}`;
+    const stars = `stars:${formElementsArr[5].config.value}..${formElementsArr[6].config.value}`;
+    const created = `created:${formElementsArr[2].config.value}-${formElementsArr[1].config.value}-01..${formElementsArr[4].config.value}-${formElementsArr[3].config.value}-01`;
 
-    const URL = `${baseUrl}+${language}+${stars}+${created}`
-    setUrl(URL)
-    console.log(URL)
-  }
+    const URL = `${baseUrl}+${language}+${stars}+${created}`;
+    setUrl(URL);
+    console.log(URL);
+  };
 
-  let form = (
+  const form = (
     <form onSubmit={formHandler}>
       {formElementsArr.map(el => (
         <Input
@@ -214,16 +208,16 @@ const RepoFinder = props => {
           label={el.config.label}
         />
       ))}
-      <Button disabled={false} label={'Get repos'} />
+      <Button disabled={false} label="Get repos" />
     </form>
-  )
+  );
 
   return (
     <div className={styles.RepoFinder}>
       {form}
       <GridRepos repos={repos} />
     </div>
-  )
-}
+  );
+};
 
-export default RepoFinder
+export default RepoFinder;

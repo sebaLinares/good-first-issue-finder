@@ -14,8 +14,8 @@
     "react-datepicker": "^2.11.0",
     "react-dom": "^16.8.6",
     "react-scripts": "3.0.1",
-    "styled-components": "^5.0.0",
-    "serialize-javascript": "^2.1.1"
+    "serialize-javascript": "^2.1.1",
+    "styled-components": "^5.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -30,18 +30,6 @@
   "eslintConfig": {
     "extends": "react-app"
   },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.js": [
-      "pretty-quick --staged",
-      "eslint --fix . --ext .js"
-    ]
-  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -55,8 +43,6 @@
     ]
   },
   "devDependencies": {
-    "@commitlint/cli": "^8.3.5",
-    "@commitlint/config-conventional": "^8.3.4",
     "babel-eslint": "^10.0.1",
     "eslint": "^6.8.0",
     "eslint-config-airbnb": "^18.0.1",
@@ -67,10 +53,7 @@
     "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-react": "^7.18.0",
     "eslint-plugin-react-hooks": "^1.7.0",
-    "husky": "^4.0.10",
-    "lint-staged": "^10.0.0",
-    "prettier": "^1.17.1",
-    "pretty-quick": "^2.0.1"
+    "prettier": "^1.17.1"
   },
   "homepage": "https://sebalinares.github.io/good-first-issue-finder/"
 }
