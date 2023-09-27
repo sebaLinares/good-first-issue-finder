@@ -1,17 +1,15 @@
-import React from 'react'
-import './App.css'
+import React from 'react';
+import './App.css';
 
-import Hero from './containers/Hero/Hero'
-import RepoFinder from './containers/RepoFinder/RepoFinder'
+import Hero from './containers/Hero/Hero';
+import RepoFinder from './containers/RepoFinder/RepoFinder';
 
-const App = () => {
-  return (
-    <div className="App">
-      <Hero />
-      <RepoFinder />
-      <hr />
-    </div>
-  )
-}
+const App = () => (
+  <div className="App">
+    <Hero />
+    <RepoFinder />
+    <hr />
+  </div>
+);
 
-export default App
+export default App;

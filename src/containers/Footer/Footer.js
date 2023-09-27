@@ -1,10 +1,7 @@
-import React from 'react'
-
-// Import styles
-import styles from './Footer.module.scss'
+import React from 'react';
 
 const Footer = props => (
-  <div className={styles.Footer}>
+  <div>
     <p>
       You can collaborate to this repo in{' '}
       <a href="https://github.com/sebaLinares/good-first-issue-finder">
@@ -12,6 +9,6 @@ const Footer = props => (
       </a>
     </p>
   </div>
-)
+);
 
-export default Footer
+export default Footer;

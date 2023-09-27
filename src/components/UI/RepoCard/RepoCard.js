@@ -1,15 +1,15 @@
-import React from 'react'
+import React from 'react';
 
 // Style imports
-import styles from './RepoCard.module.scss'
+import './RepoCard.scss';
 
 const RepoCard = props => (
-  <div className={styles.RepoCard}>
+  <div className="RepoCard">
     <img src={props.img} alt="repo-avatar" />
     <h3>{props.name}</h3>
     <p>{props.stars} &#9733;</p>
     <p>Last update: {props.updated_at}</p>
   </div>
-)
+);
 
-export default RepoCard
+export default RepoCard;

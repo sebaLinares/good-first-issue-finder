@@ -35,13 +35,7 @@
       "LabeledStatement",
       "WithStatement"
     ],
-    "no-unused-vars": [
-      1,
-      {
-        "ignoreSiblings": true,
-        "argsIgnorePattern": "res|next|^err"
-      }
-    ],
+    "no-unused-vars": [1],
     "prefer-const": [
       "error",
       {
@@ -112,6 +106,10 @@
     "no-process-exit": "off",
     "object-shorthand": "off",
     "class-methods-use-this": "off",
-    "react/jsx-one-expression-per-line": "off"
+    "react/jsx-one-expression-per-line": "off",
+    "import/no-extraneous-dependencies": [
+      "error",
+      { "devDependencies": ["webpack.config.js", "webpack.config.*.js"] }
+    ]
   }
 }

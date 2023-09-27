@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 // Style imports
 import axios from 'axios';
-import styles from './RepoFinder.module.scss';
+import './RepoFinder.scss';
 
 // Package imports
 
@@ -17,7 +17,7 @@ const RepoFinder = props => {
   const [url, setUrl] = useState('');
   const [inputs, setInputs] = useState({
     language: {
-      label: 'Language',
+      label: 'Languag',
       elementType: 'select',
       value: '',
       elementConfig: {
@@ -213,7 +213,7 @@ const RepoFinder = props => {
   );
 
   return (
-    <div className={styles.RepoFinder}>
+    <div className="RepoFinder">
       {form}
       <GridRepos repos={repos} />
     </div>

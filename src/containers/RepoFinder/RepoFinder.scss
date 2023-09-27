@@ -1,4 +1,4 @@
-@import 'main';
+@import '../../scss/main.scss';
 
 .RepoFinder {
   width: 100%;
@@ -28,7 +28,7 @@
       }
 
       &:focus {
-        outline:none
+        outline: none;
       }
     }
   }
