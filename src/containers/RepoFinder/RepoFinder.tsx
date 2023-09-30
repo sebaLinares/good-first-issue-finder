@@ -13,7 +13,7 @@ import GridRepos from '../../components/GridRepos/GridRepos';
 import Input from '../../components/UI/Input/Input';
 import Button from '../../components/UI/Button/Button';
 
-const RepoFinder = props => {
+const RepoFinder = (props) => {
   const [url, setUrl] = useState('');
   const [inputs, setInputs] = useState({
     language: {
@@ -136,8 +136,8 @@ const RepoFinder = props => {
     if (url) {
       axios
         .get(url)
-        .then(res => {
-          const reposarr = res.data.items.map(el => {
+        .then((res) => {
+          const reposarr = res.data.items.map((el) => {
             const date = el.updated_at.split('t');
             return {
               id: el.id,
@@ -150,7 +150,7 @@ const RepoFinder = props => {
           });
           setRepos(reposarr);
         })
-        .catch(err => console.log(err));
+        .catch((err) => console.log(err));
     }
   }, [url]);
   const onChangeHandler = (event, id) => {
@@ -179,7 +179,7 @@ const RepoFinder = props => {
     });
   }
 
-  const formHandler = event => {
+  const formHandler = (event) => {
     event.preventDefault();
     console.log(formElementsArr);
 
@@ -198,12 +198,12 @@ const RepoFinder = props => {
 
   const form = (
     <form onSubmit={formHandler}>
-      {formElementsArr.map(el => (
+      {formElementsArr.map((el) => (
         <Input
           key={el.id}
           elementType={el.config.elementType}
           value={el.config.value}
-          changed={event => onChangeHandler(event, el.id)}
+          changed={(event) => onChangeHandler(event, el.id)}
           elementConfig={el.config.elementConfig}
           label={el.config.label}
         />

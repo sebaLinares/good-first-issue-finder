@@ -2,9 +2,7 @@
   "editor.codeActionsOnSave": {
     "source.fixAll": true
   },
-  "prettier.disableLanguages": ["javascript", "javascriptreact"],
   "editor.formatOnSave": true,
   "editor.formatOnType": true,
-  "eslint.enable": true,
-  "prettier.singleQuote": true
+  "eslint.enable": true
 }

@@ -12,7 +12,7 @@ const Input = ({ elementType, value, changed, elementConfig, label }) => {
               {' '}
               -- select an option --{' '}
             </option>
-            {elementConfig.options.map(el => (
+            {elementConfig.options.map((el) => (
               <option value={el.value} key={el.value}>
                 {el.displayValue}
               </option>
