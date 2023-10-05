@@ -1,48 +1,36 @@
-# GFIF - Good First Issue Finder
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-GFIF is aimed to be an easy way for newcomers in the open software world, that for no particular reason want to start contributing to open source (like me). It has come to my attention the difficulty of finding `good first issue` issues in a variety of github repositories - not the same libraries that are always being featured.
+## Getting Started
 
-This will be my first OSS and part of my #100DaysOfCode Challenge, so it'll be used primarily for learning purposes. Any contribution is much appreciated and if you haven't done any open source contribution and wish to learn how to contribute, it's a wonderful oportunity for us both.
-
-[You can find the app :zap:](https://sebalinares.github.io/good-first-issue-finder/)
-
-## :dart: App purpose
-
-To be an easy way to find repos, with opened issues, that have the `good first issue` label :label:. The user will be able to find repos, with this kind of issues, by the year created, the programming language written in or the stars they have. This will give the user the possibility to find a wide range of repositories that have good issues for **his first open source contributions**.
-
-## :wrench: Installing / Getting started
-
-With npm:
+First, run the development server:
 
 ```bash
-git clone https://github.com/sebaLinares/first-time-only-finder.git
-npm install
-npm start
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
 ```
 
-With yarn:
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-```bash
-git clone https://github.com/sebaLinares/first-time-only-finder.git
-yarn install
-yarn start
-```
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-## :construction_worker: Built with
+This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-- Create react app
+## Learn More
 
-## :open_hands: Contributing
+To learn more about Next.js, take a look at the following resources:
 
-If you would like to contribute please fork this repository.
-Be my guest to contribute with pull requests or participating on any issue. This is a learning project so issues will be easy picks for a good first issue.
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-If you don't know how to contribute to open source I leave you [this link](https://codeburst.io/a-step-by-step-guide-to-making-your-first-github-contribution-5302260a2940) with a medium post written by someone else that walks you through open source github contributions.
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-## :eyes: Author
+## Deploy on Vercel
 
-- Sebastián Linares. You can find me on [Twitter @slinaresl](https://twitter.com/SLinaresL)
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-## License
-
-[MIT](https://choosealicense.com/licenses/mit/)
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
