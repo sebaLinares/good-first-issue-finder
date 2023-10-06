@@ -1,3 +1,4 @@
+import { RepositoryCard } from "@/components/repository-card";
 import { RepositorySearchForm } from "@/components/repository-search-form";
 import { Card } from "@/components/ui/card";
 
@@ -9,7 +10,7 @@ export default function Home() {
           <div className="relative overflow-hidden h-full py-6 pl-8 pr-6 lg:py-8">
             <div className="flex flex-col gap-y-4">
               <h3 className="text-xl">Customize your repository search</h3>
-                <RepositorySearchForm />
+              <RepositorySearchForm />
             </div>
           </div>
         </aside>
@@ -17,26 +18,7 @@ export default function Home() {
           <div className="flex flex-col">
             <h3 className="text-xl">3 repositories founded</h3>
             <div className="flex flex-col">
-              <Card>
-                <div className="flex flex-col">
-                  <h3>First Repository found</h3>
-                </div>
-              </Card>
-              <Card>
-                <div className="flex flex-col">
-                  <h3>First Repository found</h3>
-                </div>
-              </Card>
-              <Card>
-                <div className="flex flex-col">
-                  <h3>First Repository found</h3>
-                </div>
-              </Card>
-              <Card>
-                <div className="flex flex-col">
-                  <h3>First Repository found</h3>
-                </div>
-              </Card>
+              <RepositoryCard />
             </div>
           </div>
         </main>
